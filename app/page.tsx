@@ -45,9 +45,18 @@ export default async function Home() {
   const message = await getMessage();
 
   const heroImages = [
-    "hero1.png","hero2.png","hero3.png","hero4.png",
-    "hero5.png","hero6.png","hero7.png","hero8.png",
-    "hero9.png","hero10.png","hero11.png","hero12.png",
+    "hero1.png",
+    "hero2.png",
+    "hero3.png",
+    "hero4.png",
+    "hero5.png",
+    "hero6.png",
+    "hero7.png",
+    "hero8.png",
+    "hero9.png",
+    "hero10.png",
+    "hero11.png",
+    "hero12.png",
   ];
 
   const heroIndex = weekOfYear() % heroImages.length;
@@ -56,7 +65,6 @@ export default async function Home() {
   return (
     <div className="flex justify-center bg-zinc-50 px-6 pt-6 pb-24">
       <div className="w-full max-w-md overflow-hidden rounded-2xl bg-white shadow-xl border-4 border-[#ab882e]">
-
         {/* Hero */}
         <div className="relative h-36 w-full">
           <img
@@ -68,7 +76,6 @@ export default async function Home() {
         </div>
 
         <div className="p-6">
-
           <h1 className="flex items-center justify-center gap-2 text-xl font-semibold mb-4 text-center">
             <span>Get Your Daily Jenn Juice</span>
             <img src="/favicon.png" alt="Jenn" className="h-6 w-6" />
@@ -76,8 +83,7 @@ export default async function Home() {
 
           {message ? (
             <div className="text-center">
-
-              {/* Quote */}
+              {/* Quote + Heart */}
               <p className="text-lg leading-relaxed">
                 {message.text}{" "}
                 <span className="inline-block align-middle">
@@ -88,8 +94,20 @@ export default async function Home() {
                 </span>
               </p>
 
-              {/* 👇 MOVE HINT HERE */}
-              <HeartHint />
+              {/* Hint under quote (above reference) */}
+              <div className="mt-2">
+                <HeartHint />
+              </div>
+
+              {/* View Favorites (small + right-aligned under the heart) */}
+              <div className="mt-2 flex justify-end">
+                <a
+                  href="/favorites"
+                  className="inline-flex rounded-lg border border-[#ab882e] px-2 py-1 text-[11px] font-semibold text-[#ab882e] hover:bg-[#ab882e] hover:text-white transition-colors"
+                >
+                  View favorites
+                </a>
+              </div>
 
               {/* Reference */}
               {message.reference ? (
@@ -97,7 +115,6 @@ export default async function Home() {
                   — {message.reference}
                 </p>
               ) : null}
-
             </div>
           ) : (
             <p className="text-center text-sm text-black/70">
@@ -107,14 +124,11 @@ export default async function Home() {
 
           {/* Ask a Coach */}
           <div className="mt-8 border-t border-black/10 pt-4">
-            <p className="text-sm font-semibold text-center">
-              Ask Jenn a Question
-            </p>
+            <p className="text-sm font-semibold text-center">Ask Jenn a Question</p>
             <div className="mt-3">
               <AskCoach />
             </div>
           </div>
-
         </div>
       </div>
     </div>

@@ -1,49 +1,70 @@
-import { NextResponse } from "next/server";
 import { Resend } from "resend";
+
+export const runtime = "nodejs";
+
+function safeStr(x: unknown) {
+  return typeof x === "string" ? x.trim() : "";
+}
+
+// ✅ This lets you visit /api/ask-coach in a browser and confirm env + route is deployed
+export async function GET() {
+  return Response.json({
+    ok: true,
+    hasResendKey: Boolean(process.env.RESEND_API_KEY),
+    nodeEnv: process.env.NODE_ENV,
+  });
+}
 
 export async function POST(req: Request) {
   try {
     const { name, fromEmail, question } = await req.json();
 
-    if (!question || typeof question !== "string" || !question.trim()) {
-      return new NextResponse("Question is required.", { status: 400 });
+    const cleanQuestion = safeStr(question);
+    const cleanName = safeStr(name);
+    const cleanFromEmail = safeStr(fromEmail);
+
+    if (!cleanQuestion) {
+      return new Response("Missing question", { status: 400 });
     }
 
     const resendKey = process.env.RESEND_API_KEY;
     if (!resendKey) {
-      return new NextResponse(
-        "Missing RESEND_API_KEY. Add it to .env.local and restart the server.",
-        { status: 500 }
-      );
+      return new Response("Missing RESEND_API_KEY (Vercel env var)", {
+        status: 500,
+      });
     }
 
     const resend = new Resend(resendKey);
 
-    const subject = "Ask a Coach — New question from the app";
-    const safeName = (name || "").toString().trim();
-    const safeFrom = (fromEmail || "").toString().trim();
+    const subject = "New Ask-a-Coach question (Find the Joy app)";
+    const from = "Find the Joy with Jenn <onboarding@resend.dev>"; // safe default
+    const replyTo = cleanFromEmail ? cleanFromEmail : undefined;
 
-    const html = `
-      <div style="font-family: Arial, sans-serif; line-height: 1.5">
-        <h2>New Ask a Coach Question</h2>
-        <p><strong>Name:</strong> ${safeName || "(not provided)"}</p>
-        <p><strong>Email:</strong> ${safeFrom || "(not provided)"}</p>
-        <hr />
-        <p><strong>Question:</strong></p>
-        <p>${String(question).replaceAll("\n", "<br/>")}</p>
-      </div>
-    `;
+    const bodyText =
+      `New question submitted from the app:\n\n` +
+      (cleanName ? `Name: ${cleanName}\n` : "") +
+      (cleanFromEmail ? `Email: ${cleanFromEmail}\n` : "") +
+      `\nQuestion:\n${cleanQuestion}\n`;
 
-    await resend.emails.send({
-      from: "Find the Joy App <onboarding@resend.dev>",
-      to: ["jenn@jennzingmark.com"],
+    const result = await resend.emails.send({
+      from,
+      to: "jenn@jennzingmark.com",
       subject,
-      html,
-      replyTo: safeFrom || undefined,
+      text: bodyText,
+      replyTo,
     });
 
-    return NextResponse.json({ ok: true });
-  } catch (e: any) {
-    return new NextResponse("Error sending email.", { status: 500 });
+    if (result.error) {
+      return new Response(
+        `Resend error: ${result.error.message || "Unknown error"}`,
+        { status: 500 }
+      );
+    }
+
+    return new Response("OK", { status: 200 });
+  } catch (err: any) {
+    return new Response(`Server error: ${err?.message || "Unknown"}`, {
+      status: 500,
+    });
   }
 }

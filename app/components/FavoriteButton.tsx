@@ -7,49 +7,74 @@ type Props = {
   reference?: string | null;
 };
 
+type FavItem = {
+  id: string;
+  text: string;
+  reference?: string | null;
+  savedAt: string;
+};
+
+const STORAGE_KEY = "ftj_favorites_v1";
+
+function readFavs(): FavItem[] {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? (JSON.parse(raw) as FavItem[]) : [];
+  } catch {
+    return [];
+  }
+}
+
+function writeFavs(favs: FavItem[]) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(favs));
+}
+
+function makeId() {
+  return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+}
+
 export default function FavoriteButton({ text, reference }: Props) {
   const [isSaved, setIsSaved] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
-  const key = "jenn-favorites";
 
   useEffect(() => {
-    const stored = localStorage.getItem(key);
-    if (!stored) return;
-
-    const favorites = JSON.parse(stored);
-    const exists = favorites.find((f: any) => f.text === text);
+    const favs = readFavs();
+    const exists = favs.find((f) => f.text === text);
     setIsSaved(Boolean(exists));
   }, [text]);
 
   function toggleFavorite() {
-    const stored = localStorage.getItem(key);
-    const favorites = stored ? JSON.parse(stored) : [];
+    const favs = readFavs();
+    const existing = favs.find((f) => f.text === text);
 
-    const exists = favorites.find((f: any) => f.text === text);
-
-    let updated;
-
-    if (exists) {
-      updated = favorites.filter((f: any) => f.text !== text);
+    if (existing) {
+      const next = favs.filter((f) => f.id !== existing.id);
+      writeFavs(next);
       setIsSaved(false);
-    } else {
-      updated = [...favorites, { text, reference }];
-      setIsSaved(true);
-      setShowFeedback(true);
-
-      setTimeout(() => {
-        setShowFeedback(false);
-      }, 1200);
+      return;
     }
 
-    localStorage.setItem(key, JSON.stringify(updated));
+    const newFav: FavItem = {
+      id: makeId(),
+      text,
+      reference: reference ?? null,
+      savedAt: new Date().toISOString(),
+    };
+
+    const next = [...favs, newFav];
+    writeFavs(next);
+    setIsSaved(true);
+    setShowFeedback(true);
+
+    setTimeout(() => setShowFeedback(false), 1200);
   }
 
   return (
-    <span className="inline-flex flex-col items-center">
+    <span className="inline-flex flex-col items-center align-middle">
       <button
         onClick={toggleFavorite}
         className="transition-transform hover:scale-110"
+        type="button"
       >
         {isSaved ? (
           <svg
@@ -85,7 +110,7 @@ export default function FavoriteButton({ text, reference }: Props) {
       </button>
 
       {showFeedback && (
-        <span className="mt-1 text-[11px] text-[#ab882e] animate-fade">
+        <span className="mt-1 text-[11px] text-[#ab882e]">
           Saved
         </span>
       )}
