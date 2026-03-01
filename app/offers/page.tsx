@@ -2,34 +2,10 @@ import { getSupabaseClient } from "@/lib/supabaseClient";
 
 const DEFAULT_BOOK = process.env.NEXT_PUBLIC_DEFAULT_BOOK_URL!;
 
-// Helper: decide if this offer should show a second button
-function shouldShowSecondButton(category?: string | null) {
-  // Only Courses should NOT have a second button
-  return (category ?? "").toLowerCase() !== "courses";
-}
-
-// Helper: second button label (keeps your existing behavior)
-function secondButtonLabel(category?: string | null) {
-  // If it's the Strategy Session card or a coaching card, "Book Now" is fine
-  // Otherwise keep "Book a Call" (you can tweak later)
-  const c = (category ?? "").toLowerCase();
-  if (c.includes("strategy")) return "Book Now";
-  if (c.includes("1:1") || c.includes("coaching")) return "Book a Call";
-  return "Book a Call";
-}
-
-// Helper: second button URL rules you requested
-function secondButtonUrl(offer: any) {
-  const category = (offer.category ?? "").toLowerCase();
-
-  // 1:1 coaching should always book to the 50-min link
-  if (category === "1:1 coaching" || category.includes("one-on-one")) {
-    return "https://calendly.com/jennzingmark/50min";
-  }
-
-  // Otherwise use the offer’s book_url if present, fallback to DEFAULT_BOOK
-  return offer.book_url || DEFAULT_BOOK;
-}
+// Hard rules based on the URLs (so it won't break if category names change)
+const COURSES_URL = "https://www.findthejoywithjenn.com/courses";
+const ONE_ON_ONE_URL = "https://www.findthejoywithjenn.com/certified/one-on-one-coaching";
+const ONE_ON_ONE_BOOK = "https://calendly.com/jennzingmark/50min";
 
 async function getOffers() {
   const supabase = getSupabaseClient();
@@ -48,6 +24,29 @@ async function getOffers() {
   return data ?? [];
 }
 
+function isCoursesOffer(o: any) {
+  return (o.learn_more_url ?? "").trim() === COURSES_URL;
+}
+
+function isOneOnOneOffer(o: any) {
+  return (o.learn_more_url ?? "").trim() === ONE_ON_ONE_URL;
+}
+
+function secondButtonText(o: any) {
+  // 2nd card should say "Book a Session"
+  if (isOneOnOneOffer(o)) return "Book a Session";
+  // default label elsewhere (you can change later if you want)
+  return "Book Now";
+}
+
+function secondButtonHref(o: any) {
+  // 2nd card should book to /50min
+  if (isOneOnOneOffer(o)) return ONE_ON_ONE_BOOK;
+
+  // else: offer-specific book link or default strategy session
+  return o.book_url || DEFAULT_BOOK;
+}
+
 export default async function OffersPage() {
   const offers = await getOffers();
   const featured = offers.find((o: any) => o.is_featured) ?? null;
@@ -60,7 +59,7 @@ export default async function OffersPage() {
         Explore your next best step. Strategy Session is always available.
       </p>
 
-      {/* FEATURED OFFER (Strategy Session) */}
+      {/* FEATURED (Strategy Session): always Learn More + Book Now (DEFAULT_BOOK) */}
       {featured && (
         <div className="mt-6 rounded-2xl border-2 border-[#ab882e] bg-white p-6 shadow-md">
           <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
@@ -74,7 +73,6 @@ export default async function OffersPage() {
           )}
 
           <div className="mt-4 flex gap-3">
-            {/* Learn More */}
             <a
               className="rounded-xl border-2 border-[#ab882e] px-4 py-2 text-sm font-medium text-[#ab882e] hover:bg-[#ab882e] hover:text-white transition-colors"
               href={featured.learn_more_url}
@@ -84,7 +82,6 @@ export default async function OffersPage() {
               Learn More
             </a>
 
-            {/* Featured should KEEP second button (Book Now) */}
             <a
               className="rounded-xl border-2 border-[#ab882e] px-4 py-2 text-sm font-medium text-[#ab882e] hover:bg-[#ab882e] hover:text-white transition-colors"
               href={DEFAULT_BOOK}
@@ -97,7 +94,7 @@ export default async function OffersPage() {
         </div>
       )}
 
-      {/* OTHER OFFERS */}
+      {/* LIST */}
       <div className="mt-6 space-y-4">
         {list.map((o: any, idx: number) => (
           <div
@@ -115,7 +112,7 @@ export default async function OffersPage() {
             )}
 
             <div className="mt-3 flex gap-3">
-              {/* Learn More */}
+              {/* Always: Learn More */}
               <a
                 className="rounded-xl border-2 border-[#ab882e] px-3 py-2 text-sm font-medium text-[#ab882e] hover:bg-[#ab882e] hover:text-white transition-colors"
                 href={o.learn_more_url}
@@ -125,15 +122,15 @@ export default async function OffersPage() {
                 Learn More
               </a>
 
-              {/* Second button for ALL except Courses */}
-              {shouldShowSecondButton(o.category) && (
+              {/* ONLY show 2nd button if NOT Courses */}
+              {!isCoursesOffer(o) && (
                 <a
                   className="rounded-xl border-2 border-[#ab882e] px-3 py-2 text-sm font-medium text-[#ab882e] hover:bg-[#ab882e] hover:text-white transition-colors"
-                  href={secondButtonUrl(o)}
+                  href={secondButtonHref(o)}
                   target="_blank"
                   rel="noreferrer"
                 >
-                  {secondButtonLabel(o.category)}
+                  {secondButtonText(o)}
                 </a>
               )}
             </div>
