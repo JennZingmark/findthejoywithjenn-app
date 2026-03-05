@@ -3,6 +3,24 @@
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 
+function UserIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      className={className}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M20 21a8 8 0 0 0-16 0" />
+      <circle cx="12" cy="8" r="4" />
+    </svg>
+  );
+}
+
 export default function BottomNav() {
   const pathname = usePathname();
 
@@ -11,8 +29,7 @@ export default function BottomNav() {
       active ? "text-[#ab882e]" : "text-black/80 hover:text-[#ab882e]"
     }`;
 
-  const labelClass =
-    "mt-1 text-[11px] font-semibold leading-none truncate w-full";
+  const labelClass = "mt-1 text-[11px] font-semibold leading-none truncate w-full";
 
   return (
     <nav
@@ -40,7 +57,7 @@ export default function BottomNav() {
           </Link>
 
           <Link href="/for-you" className={itemClass(pathname === "/for-you")}>
-            <span className="text-lg">👤</span>
+            <UserIcon className="h-5 w-5" />
             <span className={labelClass}>For You</span>
           </Link>
 
