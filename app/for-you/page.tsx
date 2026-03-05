@@ -40,13 +40,30 @@ export default function ForYouPage() {
   const [copied, setCopied] = useState<string | null>(null);
 
   const copyCode = async (code: string) => {
-    await navigator.clipboard.writeText(code);
+    try {
+      await navigator.clipboard.writeText(code);
+    } catch {
+      const el = document.createElement("textarea");
+      el.value = code;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand("copy");
+      document.body.removeChild(el);
+    }
+
     setCopied(code);
     setTimeout(() => setCopied(null), 1500);
+
+    // analytics hook (for later)
+    console.log("coupon_copied", code);
   };
 
-  const open = (url: string) => {
+  const open = (url: string, code: string) => {
+    copyCode(code);
     window.open(url, "_blank", "noopener,noreferrer");
+
+    // analytics hook (for later)
+    console.log("coupon_claim_clicked", code);
   };
 
   return (
@@ -61,32 +78,26 @@ export default function ForYouPage() {
         {OFFERS.map((offer) => (
           <div
             key={offer.code}
-            className="rounded-2xl border-2 border-[#ab882e] bg-white p-4 shadow-sm"
+            className="relative rounded-2xl border-2 border-[#ab882e] bg-white p-4 shadow-sm cursor-pointer"
+            onClick={() => open(offer.link, offer.code)}
           >
+            {/* App Exclusive Ribbon */}
+            <div className="absolute -top-2 right-3 rounded-md bg-[#ab882e] px-2 py-[2px] text-[10px] font-bold text-white">
+              APP EXCLUSIVE
+            </div>
+
             <h2 className="text-base font-semibold">{offer.title}</h2>
 
             <p className="mt-1 text-sm text-zinc-600">{offer.description}</p>
 
             <div className="mt-3 flex items-center justify-between">
               <span className="rounded-lg border-2 border-[#ab882e] px-3 py-1 text-sm font-mono text-[#ab882e]">
-                {offer.code}
+                {copied === offer.code ? "Copied!" : offer.code}
               </span>
-            </div>
 
-            <div className="mt-3 flex gap-2">
-              <button
-                onClick={() => copyCode(offer.code)}
-                className="flex-1 rounded-xl bg-[#ab882e] px-4 py-2 text-sm font-semibold text-white"
-              >
-                {copied === offer.code ? "Copied!" : "Copy Code"}
-              </button>
-
-              <button
-                onClick={() => open(offer.link)}
-                className="flex-1 rounded-xl border-2 border-[#ab882e] px-4 py-2 text-sm font-semibold text-[#ab882e]"
-              >
-                Claim Offer
-              </button>
+              <span className="text-xs font-semibold text-[#ab882e]">
+                Tap to Claim →
+              </span>
             </div>
           </div>
         ))}
@@ -98,7 +109,10 @@ export default function ForYouPage() {
         <div className="mt-3 flex flex-col gap-2">
           <button
             onClick={() =>
-              open("https://www.findthejoywithjenn.com/program-details")
+              window.open(
+                "https://www.findthejoywithjenn.com/program-details",
+                "_blank"
+              )
             }
             className="rounded-xl border-2 border-[#ab882e] px-4 py-2 text-sm font-semibold text-[#ab882e]"
           >
@@ -107,7 +121,10 @@ export default function ForYouPage() {
 
           <button
             onClick={() =>
-              open("https://www.findthejoywithjenn.com/one-on-one-coaching")
+              window.open(
+                "https://www.findthejoywithjenn.com/one-on-one-coaching",
+                "_blank"
+              )
             }
             className="rounded-xl border-2 border-[#ab882e] px-4 py-2 text-sm font-semibold text-[#ab882e]"
           >
