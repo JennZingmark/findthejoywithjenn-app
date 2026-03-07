@@ -196,14 +196,14 @@ export default function ForYouPage() {
       });
 
       if (!res.ok) {
-        let message = "Subscribe failed";
+        const raw = await res.text();
+        let message = raw || "Subscribe failed";
 
         try {
-          const data = await res.json();
-          message = data?.error || JSON.stringify(data);
+          const parsed = JSON.parse(raw);
+          message = parsed?.error || raw;
         } catch {
-          const txt = await res.text();
-          message = txt || "Subscribe failed";
+          // keep raw text
         }
 
         throw new Error(message);
@@ -257,7 +257,7 @@ export default function ForYouPage() {
         </div>
 
         {pushMsg ? (
-          <div className="mt-2 text-xs text-zinc-700 break-words">{pushMsg}</div>
+          <div className="mt-2 break-words text-xs text-zinc-700">{pushMsg}</div>
         ) : null}
       </div>
 
