@@ -90,27 +90,41 @@ export default function ForYouPage() {
   );
 
   useEffect(() => {
-    const supported =
-      typeof window !== "undefined" &&
-      "Notification" in window &&
-      "serviceWorker" in navigator &&
-      "PushManager" in window;
+    const initPushState = async () => {
+      const supported =
+        typeof window !== "undefined" &&
+        "Notification" in window &&
+        "serviceWorker" in navigator &&
+        "PushManager" in window;
 
-    setPushSupported(supported);
+      setPushSupported(supported);
 
-    if (!supported) {
-      setPushStatus("not-supported");
-      return;
-    }
+      if (!supported) {
+        setPushStatus("not-supported");
+        return;
+      }
 
-    if (Notification.permission === "denied") {
-      setPushStatus("denied");
-      return;
-    }
+      if (Notification.permission === "denied") {
+        setPushStatus("denied");
+        return;
+      }
 
-    if (Notification.permission === "granted") {
-      setPushStatus("unknown");
-    }
+      try {
+        const reg = await navigator.serviceWorker.ready;
+        const existingSub = await reg.pushManager.getSubscription();
+
+        if (existingSub) {
+          setPushStatus("enabled");
+          setPushMsg("✅ Alerts are enabled.");
+        } else {
+          setPushStatus("unknown");
+        }
+      } catch {
+        setPushStatus("unknown");
+      }
+    };
+
+    void initPushState();
   }, []);
 
   const copyCode = async (code: string) => {
