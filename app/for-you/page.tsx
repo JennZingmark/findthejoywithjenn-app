@@ -196,8 +196,17 @@ export default function ForYouPage() {
       });
 
       if (!res.ok) {
-        const txt = await res.text();
-        throw new Error(txt || "Subscribe failed");
+        let message = "Subscribe failed";
+
+        try {
+          const data = await res.json();
+          message = data?.error || JSON.stringify(data);
+        } catch {
+          const txt = await res.text();
+          message = txt || "Subscribe failed";
+        }
+
+        throw new Error(message);
       }
 
       setPushStatus("enabled");
@@ -248,7 +257,7 @@ export default function ForYouPage() {
         </div>
 
         {pushMsg ? (
-          <div className="mt-2 text-xs text-zinc-700">{pushMsg}</div>
+          <div className="mt-2 text-xs text-zinc-700 break-words">{pushMsg}</div>
         ) : null}
       </div>
 
