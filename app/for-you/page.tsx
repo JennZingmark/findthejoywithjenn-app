@@ -9,13 +9,22 @@ type Offer = {
   link: string;
 };
 
-const OFFER: Offer = {
-  title: "50% Off All Courses",
-  description:
-    "Exclusive app-only savings on every course. Copy your code, then head to the courses page.",
-  code: "joy50%",
-  link: "https://www.findthejoywithjenn.com/courses",
-};
+const OFFERS: Offer[] = [
+  {
+    title: "50% Off All Courses",
+    description:
+      "Exclusive app-only savings on every course. Copy your code, then head to the courses page.",
+    code: "joy50%",
+    link: "https://www.findthejoywithjenn.com/courses",
+  },
+  {
+    title: "$25 Off One-on-One Coaching",
+    description:
+      "Get $25 off a private one-on-one coaching session. Copy your code, then book your session.",
+    code: "25off",
+    link: "https://www.findthejoywithjenn.com/certified/one-on-one-coaching",
+  },
+];
 
 function urlBase64ToUint8Array(base64String: string) {
   const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
@@ -241,36 +250,41 @@ export default function ForYouPage() {
         ) : null}
       </div>
 
-      <div className="relative mt-4 rounded-2xl border-2 border-[#ab882e] bg-white p-4 shadow-sm">
-        <div className="absolute -top-2 right-3 rounded-md bg-[#ab882e] px-2 py-[2px] text-[10px] font-bold text-white">
-          APP EXCLUSIVE
+      {OFFERS.map((offer) => (
+        <div
+          key={offer.code}
+          className="relative mt-4 rounded-2xl border-2 border-[#ab882e] bg-white p-4 shadow-sm"
+        >
+          <div className="absolute -top-2 right-3 rounded-md bg-[#ab882e] px-2 py-[2px] text-[10px] font-bold text-white">
+            APP EXCLUSIVE
+          </div>
+
+          <h2 className="text-base font-semibold">{offer.title}</h2>
+          <p className="mt-1 text-sm text-zinc-600">{offer.description}</p>
+
+          <div className="mt-3 flex items-center justify-between">
+            <button
+              onClick={() => copyCode(offer.code)}
+              className="rounded-lg border-2 border-[#ab882e] px-3 py-1 text-sm font-mono text-[#ab882e]"
+            >
+              {copied === offer.code ? "Copied!" : offer.code}
+            </button>
+
+            <span className="text-xs font-semibold text-[#ab882e]">
+              Tap code to copy
+            </span>
+          </div>
+
+          <div className="mt-3">
+            <button
+              onClick={() => openOffer(offer.link)}
+              className="w-full rounded-xl bg-[#ab882e] px-4 py-2 text-sm font-semibold text-white"
+            >
+              Claim Offer
+            </button>
+          </div>
         </div>
-
-        <h2 className="text-base font-semibold">{OFFER.title}</h2>
-        <p className="mt-1 text-sm text-zinc-600">{OFFER.description}</p>
-
-        <div className="mt-3 flex items-center justify-between">
-          <button
-            onClick={() => copyCode(OFFER.code)}
-            className="rounded-lg border-2 border-[#ab882e] px-3 py-1 text-sm font-mono text-[#ab882e]"
-          >
-            {copied === OFFER.code ? "Copied!" : OFFER.code}
-          </button>
-
-          <span className="text-xs font-semibold text-[#ab882e]">
-            Tap code to copy
-          </span>
-        </div>
-
-        <div className="mt-3">
-          <button
-            onClick={() => openOffer(OFFER.link)}
-            className="w-full rounded-xl bg-[#ab882e] px-4 py-2 text-sm font-semibold text-white"
-          >
-            Claim Offer
-          </button>
-        </div>
-      </div>
+      ))}
 
       <div className="mt-6 rounded-2xl border-2 border-[#ab882e] bg-white p-4">
         <h3 className="font-semibold text-[#ab882e]">Browse Courses</h3>
