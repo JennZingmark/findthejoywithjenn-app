@@ -12,8 +12,8 @@ type Offer = {
 const OFFER: Offer = {
   title: "50% Off All Courses",
   description:
-    "Exclusive app-only savings on every course. Tap below to copy your code and head to the courses page.",
-  code: "JOY50%",
+    "Exclusive app-only savings on every course. Copy your code, then head to the courses page.",
+  code: "joy50%",
   link: "https://www.findthejoywithjenn.com/courses",
 };
 
@@ -123,8 +123,7 @@ export default function ForYouPage() {
     setTimeout(() => setCopied(null), 1500);
   };
 
-  const openOffer = (url: string, code: string) => {
-    copyCode(code);
+  const openOffer = (url: string) => {
     window.open(url, "_blank", "noopener,noreferrer");
   };
 
@@ -242,10 +241,7 @@ export default function ForYouPage() {
         ) : null}
       </div>
 
-      <div
-        className="relative mt-4 cursor-pointer rounded-2xl border-2 border-[#ab882e] bg-white p-4 shadow-sm"
-        onClick={() => openOffer(OFFER.link, OFFER.code)}
-      >
+      <div className="relative mt-4 rounded-2xl border-2 border-[#ab882e] bg-white p-4 shadow-sm">
         <div className="absolute -top-2 right-3 rounded-md bg-[#ab882e] px-2 py-[2px] text-[10px] font-bold text-white">
           APP EXCLUSIVE
         </div>
@@ -254,13 +250,25 @@ export default function ForYouPage() {
         <p className="mt-1 text-sm text-zinc-600">{OFFER.description}</p>
 
         <div className="mt-3 flex items-center justify-between">
-          <span className="rounded-lg border-2 border-[#ab882e] px-3 py-1 text-sm font-mono text-[#ab882e]">
+          <button
+            onClick={() => copyCode(OFFER.code)}
+            className="rounded-lg border-2 border-[#ab882e] px-3 py-1 text-sm font-mono text-[#ab882e]"
+          >
             {copied === OFFER.code ? "Copied!" : OFFER.code}
-          </span>
+          </button>
 
           <span className="text-xs font-semibold text-[#ab882e]">
-            Tap to Claim →
+            Tap code to copy
           </span>
+        </div>
+
+        <div className="mt-3">
+          <button
+            onClick={() => openOffer(OFFER.link)}
+            className="w-full rounded-xl bg-[#ab882e] px-4 py-2 text-sm font-semibold text-white"
+          >
+            Claim Offer
+          </button>
         </div>
       </div>
 
@@ -269,9 +277,7 @@ export default function ForYouPage() {
 
         <div className="mt-3 flex flex-col gap-2">
           <button
-            onClick={() =>
-              window.open("https://www.findthejoywithjenn.com/courses", "_blank")
-            }
+            onClick={() => openOffer("https://www.findthejoywithjenn.com/courses")}
             className="rounded-xl border-2 border-[#ab882e] px-4 py-2 text-sm font-semibold text-[#ab882e]"
           >
             View All Courses
