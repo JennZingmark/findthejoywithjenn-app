@@ -45,10 +45,38 @@ function urlBase64ToUint8Array(base64String: string) {
   return output;
 }
 
+async function getWorkingServiceWorkerRegistration() {
+  const existing = await navigator.serviceWorker.getRegistrations();
+
+  let reg =
+    existing.find((r) => r.active) ||
+    existing.find((r) => r.waiting) ||
+    existing.find((r) => r.installing);
+
+  if (!reg) {
+    reg = await navigator.serviceWorker.register("/sw.js");
+  }
+
+  const readyReg = await Promise.race([
+    navigator.serviceWorker.ready,
+    new Promise<never>((_, reject) =>
+      setTimeout(
+        () =>
+          reject(
+            new Error(
+              "Service worker not ready yet. Please close and reopen the app, then try again."
+            )
+          ),
+        8000
+      )
+    ),
+  ]);
+
+  return reg || readyReg;
+}
+
 export default function ForYouPage() {
   const [copied, setCopied] = useState<string | null>(null);
-
-  // Push UI state
   const [pushSupported, setPushSupported] = useState(false);
   const [pushStatus, setPushStatus] = useState<
     "unknown" | "enabled" | "denied" | "not-supported"
@@ -75,7 +103,14 @@ export default function ForYouPage() {
       return;
     }
 
-    if (Notification.permission === "denied") setPushStatus("denied");
+    if (Notification.permission === "denied") {
+      setPushStatus("denied");
+      return;
+    }
+
+    if (Notification.permission === "granted") {
+      setPushStatus("unknown");
+    }
   }, []);
 
   const copyCode = async (code: string) => {
@@ -91,15 +126,11 @@ export default function ForYouPage() {
     }
     setCopied(code);
     setTimeout(() => setCopied(null), 1500);
-
-    // analytics hook (later)
-    console.log("coupon_copied", code);
   };
 
   const openOffer = (url: string, code: string) => {
     copyCode(code);
     window.open(url, "_blank", "noopener,noreferrer");
-    console.log("coupon_claim_clicked", code);
   };
 
   const enablePush = async () => {
@@ -112,24 +143,28 @@ export default function ForYouPage() {
     }
 
     if (!vapidKey) {
-      setPushMsg("Missing VAPID public key. Check Vercel env vars.");
+      setPushMsg("Missing VAPID public key.");
       return;
     }
 
     setPushBusy(true);
+
     try {
-      const permission = await Notification.requestPermission();
+      const permission =
+        Notification.permission === "granted"
+          ? "granted"
+          : await Notification.requestPermission();
+
       if (permission !== "granted") {
         setPushStatus(permission === "denied" ? "denied" : "unknown");
-        setPushMsg("Notifications weren’t enabled.");
+        setPushMsg("Notifications were not enabled.");
         return;
       }
 
-      // Wait for SW to be ready (production PWA)
-      const reg = await navigator.serviceWorker.ready;
+      const reg = await getWorkingServiceWorkerRegistration();
 
-      // If already subscribed, reuse it
       let sub = await reg.pushManager.getSubscription();
+
       if (!sub) {
         sub = await reg.pushManager.subscribe({
           userVisibleOnly: true,
@@ -152,9 +187,10 @@ export default function ForYouPage() {
       }
 
       setPushStatus("enabled");
-      setPushMsg("✅ You’re subscribed! You’ll get Jenn Juice alerts.");
+      setPushMsg("✅ Alerts are enabled.");
     } catch (e: any) {
-      setPushMsg(`Error enabling notifications: ${e?.message || e}`);
+      setPushStatus("unknown");
+      setPushMsg(e?.message || "Something went wrong enabling alerts.");
     } finally {
       setPushBusy(false);
     }
@@ -171,7 +207,6 @@ export default function ForYouPage() {
         </div>
       </div>
 
-      {/* Push CTA */}
       <div className="mt-4 rounded-2xl border-2 border-[#ab882e] bg-white p-4 shadow-sm">
         <div className="flex items-center justify-between gap-3">
           <div>
@@ -193,7 +228,7 @@ export default function ForYouPage() {
               : pushStatus === "denied"
               ? "Blocked"
               : pushBusy
-              ? "Enabling…"
+              ? "Enabling..."
               : "Enable Alerts"}
           </button>
         </div>
@@ -201,16 +236,8 @@ export default function ForYouPage() {
         {pushMsg ? (
           <div className="mt-2 text-xs text-zinc-700">{pushMsg}</div>
         ) : null}
-
-        {pushStatus === "denied" ? (
-          <div className="mt-2 text-xs text-zinc-700">
-            You blocked notifications. You can re-enable them in your phone/browser
-            notification settings for this app/site.
-          </div>
-        ) : null}
       </div>
 
-      {/* Offers */}
       <div className="mt-4 space-y-4">
         {OFFERS.map((offer) => (
           <div
@@ -238,7 +265,6 @@ export default function ForYouPage() {
         ))}
       </div>
 
-      {/* Learn More */}
       <div className="mt-6 rounded-2xl border-2 border-[#ab882e] bg-white p-4">
         <h3 className="font-semibold text-[#ab882e]">Learn More</h3>
 
