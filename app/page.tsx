@@ -1,7 +1,6 @@
 export const dynamic = "force-dynamic";
 
 import FavoriteButton from "@/app/components/FavoriteButton";
-import AskCoach from "@/app/components/AskCoach";
 import HeartHint from "@/app/components/HeartHint";
 import { getSupabaseClient } from "@/lib/supabaseClient";
 import { dayOfYearNY, getNYDateString } from "@/lib/date";
@@ -83,7 +82,6 @@ export default async function Home() {
 
           {message ? (
             <div className="text-center">
-              {/* Quote + Heart */}
               <p className="text-lg leading-relaxed">
                 {message.text}{" "}
                 <span className="inline-block align-middle">
@@ -94,12 +92,10 @@ export default async function Home() {
                 </span>
               </p>
 
-              {/* Hint under quote (above reference) */}
               <div className="mt-2">
                 <HeartHint />
               </div>
 
-              {/* View Favorites (small + right-aligned under the heart) */}
               <div className="mt-2 flex justify-end">
                 <a
                   href="/favorites"
@@ -109,7 +105,6 @@ export default async function Home() {
                 </a>
               </div>
 
-              {/* Reference */}
               {message.reference ? (
                 <p className="mt-3 text-sm text-gray-500">
                   — {message.reference}
@@ -122,11 +117,23 @@ export default async function Home() {
             </p>
           )}
 
-          {/* Ask a Coach */}
           <div className="mt-8 border-t border-black/10 pt-4">
-            <p className="text-sm font-semibold text-center">Ask Jenn a Question</p>
-            <div className="mt-3">
-              <AskCoach />
+            <p className="text-sm font-semibold text-center">
+              Browse Questions + Answers
+            </p>
+            <p className="mt-2 text-center text-sm text-zinc-600">
+              See past coaching questions and answers, or submit your own.
+            </p>
+
+            <div className="mt-4">
+              <a
+                href="https://www.findthejoywithjenn.com/ask-a-coach"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block w-full rounded-xl bg-[#ab882e] px-4 py-3 text-center text-sm font-semibold text-white hover:opacity-90 transition-opacity"
+              >
+                Ask a Coach
+              </a>
             </div>
           </div>
         </div>
