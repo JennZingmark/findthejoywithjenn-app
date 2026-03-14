@@ -63,7 +63,7 @@ export default async function Home() {
 
   return (
     <div className="flex justify-center bg-zinc-50 px-6 pt-6 pb-24">
-      <div className="w-full max-w-md overflow-hidden rounded-2xl bg-white shadow-xl border-4 border-[#ab882e]">
+      <div className="w-full max-w-md overflow-hidden rounded-2xl border-4 border-[#ab882e] bg-white shadow-xl">
         {/* Hero */}
         <div className="relative h-36 w-full">
           <img
@@ -75,7 +75,7 @@ export default async function Home() {
         </div>
 
         <div className="p-6">
-          <h1 className="flex items-center justify-center gap-2 text-xl font-semibold mb-4 text-center">
+          <h1 className="mb-4 flex items-center justify-center gap-2 text-center text-xl font-semibold">
             <span>Get Your Daily Jenn Juice</span>
             <img src="/favicon.png" alt="Jenn" className="h-6 w-6" />
           </h1>
@@ -99,7 +99,7 @@ export default async function Home() {
               <div className="mt-2 flex justify-end">
                 <a
                   href="/favorites"
-                  className="inline-flex rounded-lg border border-[#ab882e] px-2 py-1 text-[11px] font-semibold text-[#ab882e] hover:bg-[#ab882e] hover:text-white transition-colors"
+                  className="inline-flex rounded-lg border border-[#ab882e] px-2 py-1 text-[11px] font-semibold text-[#ab882e] transition-colors hover:bg-[#ab882e] hover:text-white"
                 >
                   View favorites
                 </a>
@@ -118,23 +118,24 @@ export default async function Home() {
           )}
 
           <div className="mt-8 border-t border-black/10 pt-4">
-            <p className="text-sm font-semibold text-center">
-              Browse Questions + Answers
-            </p>
-            <p className="mt-2 text-center text-sm text-zinc-600">
-              See past coaching questions and answers, or submit your own.
-            </p>
-
             <div className="mt-4">
               <a
                 href="https://www.findthejoywithjenn.com/ask-a-coach"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block w-full rounded-xl bg-[#ab882e] px-4 py-3 text-center text-sm font-semibold text-white hover:opacity-90 transition-opacity"
+                className="block w-full rounded-xl bg-[#ab882e] px-4 py-3 text-center text-sm font-semibold text-white transition-opacity hover:opacity-90"
               >
-                Ask a Coach
+                Ask Jenn
               </a>
             </div>
+
+            <p className="mt-4 text-center text-sm font-semibold">
+              Jenn’s Answers to Real Questions
+            </p>
+
+            <p className="mt-2 text-center text-sm text-zinc-600">
+              See past coaching questions and answers, or submit your own.
+            </p>
           </div>
         </div>
       </div>
