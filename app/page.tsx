@@ -118,6 +118,7 @@ export default async function Home() {
           )}
 
           <div className="mt-8 border-t border-black/10 pt-4">
+
             <div className="mt-4">
               <a
                 href="https://www.findthejoywithjenn.com/ask-a-coach"
@@ -129,13 +130,16 @@ export default async function Home() {
               </a>
             </div>
 
-            <p className="mt-4 text-center text-sm font-semibold">
+            <p className="mt-4 text-center text-sm text-zinc-600">
+              See past coaching questions and answers
+              <br />
+              or submit your own.
+            </p>
+
+            <p className="mt-3 text-center text-sm font-semibold">
               Jenn’s Answers to Real Questions
             </p>
 
-            <p className="mt-2 text-center text-sm text-zinc-600">
-              See past coaching questions and answers, or submit your own.
-            </p>
           </div>
         </div>
       </div>
