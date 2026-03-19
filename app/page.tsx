@@ -20,7 +20,7 @@ async function getMessage() {
 
   const { data: scheduled } = await supabase
     .from("messages")
-    .select("text, reference")
+    .select("text")
     .eq("scheduled_date", today)
     .eq("is_active", true)
     .limit(1);
@@ -29,7 +29,7 @@ async function getMessage() {
 
   const { data: pool } = await supabase
     .from("messages")
-    .select("text, reference")
+    .select("text")
     .eq("is_active", true)
     .is("scheduled_date", null)
     .order("created_at", { ascending: true });
@@ -87,7 +87,7 @@ export default async function Home() {
                 <span className="inline-block align-middle">
                   <FavoriteButton
                     text={message.text}
-                    reference={message.reference ?? ""}
+                    reference=""
                   />
                 </span>
               </p>
@@ -104,12 +104,6 @@ export default async function Home() {
                   View favorites
                 </a>
               </div>
-
-              {message.reference ? (
-                <p className="mt-3 text-sm text-gray-500">
-                  — {message.reference}
-                </p>
-              ) : null}
             </div>
           ) : (
             <p className="text-center text-sm text-black/70">
