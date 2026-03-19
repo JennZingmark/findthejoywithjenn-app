@@ -64,7 +64,6 @@ export default async function Home() {
   return (
     <div className="flex justify-center bg-zinc-50 px-6 pt-6 pb-24">
       <div className="w-full max-w-md overflow-hidden rounded-2xl border-4 border-[#ab882e] bg-white shadow-xl">
-        {/* Hero */}
         <div className="relative h-36 w-full">
           <img
             src={heroSrc}
@@ -82,15 +81,12 @@ export default async function Home() {
 
           {message ? (
             <div className="text-center">
-              
-              {/* ✨ QUOTE BLOCK */}
               <div className="mb-4 px-2">
                 <p className="text-[20px] leading-8 text-center font-medium text-zinc-800">
                   {message.text}
                 </p>
               </div>
 
-              {/* ❤️ Favorite */}
               <div className="flex justify-center">
                 <FavoriteButton
                   text={message.text}
@@ -110,7 +106,6 @@ export default async function Home() {
                   View favorites
                 </a>
               </div>
-
             </div>
           ) : (
             <p className="text-center text-sm text-black/70">
@@ -119,7 +114,6 @@ export default async function Home() {
           )}
 
           <div className="mt-8 border-t border-black/10 pt-4">
-
             <div className="mt-4">
               <a
                 href="https://www.findthejoywithjenn.com/ask-a-coach"
@@ -140,7 +134,6 @@ export default async function Home() {
             <p className="mt-3 text-center text-sm font-semibold">
               Jenn’s Answers to Real Questions
             </p>
-
           </div>
         </div>
       </div>
