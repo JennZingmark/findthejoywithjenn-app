@@ -74,20 +74,18 @@ export default async function Home() {
         </div>
 
         <div className="p-6">
-          <h1 className="mb-6 flex items-center justify-center gap-2 text-center text-xl font-semibold">
+          <h1 className="mb-4 flex items-center justify-center gap-2 text-center text-xl font-semibold">
             <span>Get Your Daily Jenn Juice</span>
             <img src="/favicon.png" alt="Jenn" className="h-6 w-6" />
           </h1>
 
           {message ? (
             <div className="text-center">
-              <div className="mb-4 px-2">
-                <p className="text-[20px] leading-8 text-center font-medium text-zinc-800">
-                  {message.text}
-                </p>
-              </div>
+              <p className="text-lg leading-relaxed">
+                {message.text}
+              </p>
 
-              <div className="flex justify-center">
+              <div className="mt-3 flex justify-center">
                 <FavoriteButton
                   text={message.text}
                   reference={message.reference ?? ""}
@@ -98,7 +96,7 @@ export default async function Home() {
                 <HeartHint />
               </div>
 
-              <div className="mt-3 flex justify-end">
+              <div className="mt-2 flex justify-end">
                 <a
                   href="/favorites"
                   className="inline-flex rounded-lg border border-[#ab882e] px-2 py-1 text-[11px] font-semibold text-[#ab882e] transition-colors hover:bg-[#ab882e] hover:text-white"
