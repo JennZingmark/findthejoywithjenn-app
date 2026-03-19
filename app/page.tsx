@@ -20,7 +20,7 @@ async function getMessage() {
 
   const { data: scheduled } = await supabase
     .from("messages")
-    .select("text")
+    .select("text, reference")
     .eq("scheduled_date", today)
     .eq("is_active", true)
     .limit(1);
@@ -29,7 +29,7 @@ async function getMessage() {
 
   const { data: pool } = await supabase
     .from("messages")
-    .select("text")
+    .select("text, reference")
     .eq("is_active", true)
     .is("scheduled_date", null)
     .order("created_at", { ascending: true });
@@ -87,7 +87,7 @@ export default async function Home() {
                 <span className="inline-block align-middle">
                   <FavoriteButton
                     text={message.text}
-                    reference=""
+                    reference={message.reference ?? ""}
                   />
                 </span>
               </p>
@@ -112,7 +112,6 @@ export default async function Home() {
           )}
 
           <div className="mt-8 border-t border-black/10 pt-4">
-
             <div className="mt-4">
               <a
                 href="https://www.findthejoywithjenn.com/ask-a-coach"
@@ -133,7 +132,6 @@ export default async function Home() {
             <p className="mt-3 text-center text-sm font-semibold">
               Jenn’s Answers to Real Questions
             </p>
-
           </div>
         </div>
       </div>
