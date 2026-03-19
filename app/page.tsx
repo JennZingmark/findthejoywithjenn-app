@@ -75,28 +75,34 @@ export default async function Home() {
         </div>
 
         <div className="p-6">
-          <h1 className="mb-4 flex items-center justify-center gap-2 text-center text-xl font-semibold">
+          <h1 className="mb-6 flex items-center justify-center gap-2 text-center text-xl font-semibold">
             <span>Get Your Daily Jenn Juice</span>
             <img src="/favicon.png" alt="Jenn" className="h-6 w-6" />
           </h1>
 
           {message ? (
             <div className="text-center">
-              <p className="text-lg leading-relaxed">
-                {message.text}{" "}
-                <span className="inline-block align-middle">
-                  <FavoriteButton
-                    text={message.text}
-                    reference={message.reference ?? ""}
-                  />
-                </span>
-              </p>
+              
+              {/* ✨ QUOTE BLOCK */}
+              <div className="mb-4 px-2">
+                <p className="text-[20px] leading-8 text-center font-medium text-zinc-800">
+                  {message.text}
+                </p>
+              </div>
+
+              {/* ❤️ Favorite */}
+              <div className="flex justify-center">
+                <FavoriteButton
+                  text={message.text}
+                  reference={message.reference ?? ""}
+                />
+              </div>
 
               <div className="mt-2">
                 <HeartHint />
               </div>
 
-              <div className="mt-2 flex justify-end">
+              <div className="mt-3 flex justify-end">
                 <a
                   href="/favorites"
                   className="inline-flex rounded-lg border border-[#ab882e] px-2 py-1 text-[11px] font-semibold text-[#ab882e] transition-colors hover:bg-[#ab882e] hover:text-white"
@@ -104,6 +110,7 @@ export default async function Home() {
                   View favorites
                 </a>
               </div>
+
             </div>
           ) : (
             <p className="text-center text-sm text-black/70">
@@ -112,6 +119,7 @@ export default async function Home() {
           )}
 
           <div className="mt-8 border-t border-black/10 pt-4">
+
             <div className="mt-4">
               <a
                 href="https://www.findthejoywithjenn.com/ask-a-coach"
@@ -132,6 +140,7 @@ export default async function Home() {
             <p className="mt-3 text-center text-sm font-semibold">
               Jenn’s Answers to Real Questions
             </p>
+
           </div>
         </div>
       </div>
