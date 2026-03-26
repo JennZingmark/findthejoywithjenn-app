@@ -2,10 +2,14 @@ import { getSupabaseClient } from "@/lib/supabaseClient";
 
 const DEFAULT_BOOK = process.env.NEXT_PUBLIC_DEFAULT_BOOK_URL!;
 
-// Hard rules based on the URLs (so it won't break if category names change)
 const COURSES_URL = "https://www.findthejoywithjenn.com/courses";
-const ONE_ON_ONE_URL = "https://www.findthejoywithjenn.com/certified/one-on-one-coaching";
+const ONE_ON_ONE_OLD_URL =
+  "https://www.findthejoywithjenn.com/certified/one-on-one-coaching";
+const ONE_ON_ONE_NEW_URL =
+  "https://www.findthejoywithjenn.com/one-on-one-coaching";
 const ONE_ON_ONE_BOOK = "https://calendly.com/jennzingmark/50min";
+const STRATEGY_SESSION_URL =
+  "https://www.findthejoywithjenn.com/reclaim-your-joy-strategy-session";
 
 async function getOffers() {
   const supabase = getSupabaseClient();
@@ -29,22 +33,23 @@ function isCoursesOffer(o: any) {
 }
 
 function isOneOnOneOffer(o: any) {
-  return (o.learn_more_url ?? "").trim() === ONE_ON_ONE_URL;
+  const url = (o.learn_more_url ?? "").trim();
+  return url === ONE_ON_ONE_OLD_URL || url === ONE_ON_ONE_NEW_URL;
 }
 
 function secondButtonText(o: any) {
-  // 2nd card should say "Book a Session"
   if (isOneOnOneOffer(o)) return "Book a Session";
-  // default label elsewhere (you can change later if you want)
   return "Book Now";
 }
 
 function secondButtonHref(o: any) {
-  // 2nd card should book to /50min
   if (isOneOnOneOffer(o)) return ONE_ON_ONE_BOOK;
-
-  // else: offer-specific book link or default strategy session
   return o.book_url || DEFAULT_BOOK;
+}
+
+function learnMoreHref(o: any) {
+  if (isOneOnOneOffer(o)) return ONE_ON_ONE_NEW_URL;
+  return o.learn_more_url;
 }
 
 export default async function OffersPage() {
@@ -59,7 +64,6 @@ export default async function OffersPage() {
         Explore your next best step. Strategy Session is always available.
       </p>
 
-      {/* FEATURED (Strategy Session): always Learn More + Book Now (DEFAULT_BOOK) */}
       {featured && (
         <div className="mt-6 rounded-2xl border-2 border-[#ab882e] bg-white p-6 shadow-md">
           <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
@@ -74,8 +78,8 @@ export default async function OffersPage() {
 
           <div className="mt-4 flex gap-3">
             <a
-              className="rounded-xl border-2 border-[#ab882e] px-4 py-2 text-sm font-medium text-[#ab882e] hover:bg-[#ab882e] hover:text-white transition-colors"
-              href={featured.learn_more_url}
+              className="rounded-xl border-2 border-[#ab882e] px-4 py-2 text-sm font-medium text-[#ab882e] transition-colors hover:bg-[#ab882e] hover:text-white"
+              href={STRATEGY_SESSION_URL}
               target="_blank"
               rel="noreferrer"
             >
@@ -83,7 +87,7 @@ export default async function OffersPage() {
             </a>
 
             <a
-              className="rounded-xl border-2 border-[#ab882e] px-4 py-2 text-sm font-medium text-[#ab882e] hover:bg-[#ab882e] hover:text-white transition-colors"
+              className="rounded-xl border-2 border-[#ab882e] px-4 py-2 text-sm font-medium text-[#ab882e] transition-colors hover:bg-[#ab882e] hover:text-white"
               href={DEFAULT_BOOK}
               target="_blank"
               rel="noreferrer"
@@ -94,7 +98,6 @@ export default async function OffersPage() {
         </div>
       )}
 
-      {/* LIST */}
       <div className="mt-6 space-y-4">
         {list.map((o: any, idx: number) => (
           <div
@@ -112,20 +115,18 @@ export default async function OffersPage() {
             )}
 
             <div className="mt-3 flex gap-3">
-              {/* Always: Learn More */}
               <a
-                className="rounded-xl border-2 border-[#ab882e] px-3 py-2 text-sm font-medium text-[#ab882e] hover:bg-[#ab882e] hover:text-white transition-colors"
-                href={o.learn_more_url}
+                className="rounded-xl border-2 border-[#ab882e] px-3 py-2 text-sm font-medium text-[#ab882e] transition-colors hover:bg-[#ab882e] hover:text-white"
+                href={learnMoreHref(o)}
                 target="_blank"
                 rel="noreferrer"
               >
                 Learn More
               </a>
 
-              {/* ONLY show 2nd button if NOT Courses */}
               {!isCoursesOffer(o) && (
                 <a
-                  className="rounded-xl border-2 border-[#ab882e] px-3 py-2 text-sm font-medium text-[#ab882e] hover:bg-[#ab882e] hover:text-white transition-colors"
+                  className="rounded-xl border-2 border-[#ab882e] px-3 py-2 text-sm font-medium text-[#ab882e] transition-colors hover:bg-[#ab882e] hover:text-white"
                   href={secondButtonHref(o)}
                   target="_blank"
                   rel="noreferrer"
