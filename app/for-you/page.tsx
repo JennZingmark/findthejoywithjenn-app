@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { MessageCircle, Heart, Play, Mail } from "lucide-react";
 
 type Offer = {
   title: string;
@@ -48,15 +49,14 @@ export default function ForYouPage() {
 
   return (
     <main className="mx-auto w-full max-w-md px-4 pb-24 pt-5">
-      <div className="flex items-start justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-semibold text-[#ab882e]">App Exclusives</h1>
-          <p className="mt-1 text-sm text-zinc-600">
-            Exclusive offers and free resources available inside the app.
-          </p>
-        </div>
+      <div>
+        <h1 className="text-2xl font-semibold text-[#ab882e]">App Exclusives</h1>
+        <p className="mt-1 text-sm text-zinc-600">
+          Exclusive offers and free resources available inside the app.
+        </p>
       </div>
 
+      {/* EXCLUSIVE OFFERS */}
       <div className="mt-6">
         <h2 className="text-sm font-semibold uppercase tracking-wide text-[#ab882e]">
           Exclusive Offers
@@ -94,26 +94,33 @@ export default function ForYouPage() {
         </div>
       </div>
 
-      <div className="mt-6 rounded-2xl border-2 border-[#ab882e] bg-white p-4">
-        <h3 className="font-semibold text-[#ab882e]">Browse Courses</h3>
-
-        <div className="mt-3 flex flex-col gap-2">
-          <button
-            onClick={() => openOffer("https://www.findthejoywithjenn.com/courses")}
-            className="rounded-xl border-2 border-[#ab882e] px-4 py-2 text-sm font-semibold text-[#ab882e]"
-          >
-            View All Courses
-          </button>
-        </div>
-      </div>
-
+      {/* FREE RESOURCES */}
       <div className="mt-8">
         <h2 className="text-sm font-semibold uppercase tracking-wide text-[#ab882e]">
           Free Resources
         </h2>
       </div>
 
-      <div className="mt-3 rounded-2xl border-2 border-[#ab882e] bg-white p-4 shadow-sm">
+      <div className="relative mt-3 rounded-2xl border-2 border-[#ab882e] bg-white p-4 shadow-sm overflow-hidden">
+        
+        {/* Floating Social Icons */}
+        <MessageCircle
+          className="absolute right-4 top-3 text-[#ab882e]/30"
+          size={22}
+        />
+        <Heart
+          className="absolute right-10 top-10 text-[#ab882e]/30"
+          size={18}
+        />
+        <Play
+          className="absolute right-3 bottom-4 text-[#ab882e]/30"
+          size={18}
+        />
+        <Mail
+          className="absolute right-14 bottom-3 text-[#ab882e]/30"
+          size={18}
+        />
+
         <h2 className="text-base font-semibold">{RESOURCE.title}</h2>
         <p className="mt-1 text-sm text-zinc-600">{RESOURCE.description}</p>
 
