@@ -49,6 +49,32 @@ export default function ForYouPage() {
 
   return (
     <main className="mx-auto w-full max-w-md px-4 pb-24 pt-5">
+      {/* Floating animation styles */}
+      <style jsx>{`
+        @keyframes float1 {
+          0% { transform: translateY(0px); }
+          50% { transform: translateY(-6px); }
+          100% { transform: translateY(0px); }
+        }
+        @keyframes float2 {
+          0% { transform: translateY(0px); }
+          50% { transform: translateY(5px); }
+          100% { transform: translateY(0px); }
+        }
+        .float1 {
+          animation: float1 6s ease-in-out infinite;
+        }
+        .float2 {
+          animation: float2 7s ease-in-out infinite;
+        }
+        .float3 {
+          animation: float1 8s ease-in-out infinite;
+        }
+        .float4 {
+          animation: float2 9s ease-in-out infinite;
+        }
+      `}</style>
+
       <div>
         <h1 className="text-2xl font-semibold text-[#ab882e]">App Exclusives</h1>
         <p className="mt-1 text-sm text-zinc-600">
@@ -105,19 +131,19 @@ export default function ForYouPage() {
         
         {/* Floating Social Icons */}
         <MessageCircle
-          className="absolute right-4 top-3 text-[#ab882e]/30"
+          className="absolute right-4 top-3 text-[#ab882e]/70 float1"
           size={22}
         />
         <Heart
-          className="absolute right-10 top-10 text-[#ab882e]/30"
+          className="absolute right-10 top-10 text-[#ab882e]/70 float2"
           size={18}
         />
         <Play
-          className="absolute right-3 bottom-4 text-[#ab882e]/30"
+          className="absolute right-3 bottom-4 text-[#ab882e]/70 float3"
           size={18}
         />
         <Mail
-          className="absolute right-14 bottom-3 text-[#ab882e]/30"
+          className="absolute right-14 bottom-3 text-[#ab882e]/70 float4"
           size={18}
         />
 
