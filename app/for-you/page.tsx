@@ -49,7 +49,6 @@ export default function ForYouPage() {
 
   return (
     <main className="mx-auto w-full max-w-md px-4 pb-24 pt-5">
-      {/* Floating animation styles */}
       <style jsx>{`
         @keyframes float1 {
           0% { transform: translateY(0px); }
@@ -82,8 +81,51 @@ export default function ForYouPage() {
         </p>
       </div>
 
-      {/* EXCLUSIVE OFFERS */}
+      {/* FREE RESOURCES */}
       <div className="mt-6">
+        <h2 className="text-sm font-semibold uppercase tracking-wide text-[#ab882e]">
+          Free Resources
+        </h2>
+      </div>
+
+      <div className="relative mt-3 rounded-2xl border-2 border-[#ab882e] bg-white p-4 shadow-sm overflow-hidden">
+        <div className="absolute -top-2 right-3 rounded-md bg-[#ab882e] px-2 py-[2px] text-[10px] font-bold text-white">
+          APP EXCLUSIVE
+        </div>
+
+        {/* Floating Social Icons */}
+        <MessageCircle
+          className="float1 absolute right-4 top-3 text-[#ab882e]/70"
+          size={22}
+        />
+        <Heart
+          className="float2 absolute right-10 top-10 text-[#ab882e]/70"
+          size={18}
+        />
+        <Play
+          className="float3 absolute bottom-4 right-3 text-[#ab882e]/70"
+          size={18}
+        />
+        <Mail
+          className="float4 absolute bottom-3 right-14 text-[#ab882e]/70"
+          size={18}
+        />
+
+        <h2 className="text-base font-semibold">{RESOURCE.title}</h2>
+        <p className="mt-1 text-sm text-zinc-600">{RESOURCE.description}</p>
+
+        <div className="mt-3">
+          <button
+            onClick={() => openOffer(RESOURCE.link)}
+            className="w-full rounded-xl bg-[#ab882e] px-4 py-2 text-sm font-semibold text-white"
+          >
+            Get the Free PDF
+          </button>
+        </div>
+      </div>
+
+      {/* EXCLUSIVE OFFERS */}
+      <div className="mt-8">
         <h2 className="text-sm font-semibold uppercase tracking-wide text-[#ab882e]">
           Exclusive Offers
         </h2>
@@ -120,42 +162,15 @@ export default function ForYouPage() {
         </div>
       </div>
 
-      {/* FREE RESOURCES */}
-      <div className="mt-8">
-        <h2 className="text-sm font-semibold uppercase tracking-wide text-[#ab882e]">
-          Free Resources
-        </h2>
-      </div>
+      <div className="mt-6 rounded-2xl border-2 border-[#ab882e] bg-white p-4">
+        <h3 className="font-semibold text-[#ab882e]">Browse Courses</h3>
 
-      <div className="relative mt-3 rounded-2xl border-2 border-[#ab882e] bg-white p-4 shadow-sm overflow-hidden">
-        
-        {/* Floating Social Icons */}
-        <MessageCircle
-          className="absolute right-4 top-3 text-[#ab882e]/70 float1"
-          size={22}
-        />
-        <Heart
-          className="absolute right-10 top-10 text-[#ab882e]/70 float2"
-          size={18}
-        />
-        <Play
-          className="absolute right-3 bottom-4 text-[#ab882e]/70 float3"
-          size={18}
-        />
-        <Mail
-          className="absolute right-14 bottom-3 text-[#ab882e]/70 float4"
-          size={18}
-        />
-
-        <h2 className="text-base font-semibold">{RESOURCE.title}</h2>
-        <p className="mt-1 text-sm text-zinc-600">{RESOURCE.description}</p>
-
-        <div className="mt-3">
+        <div className="mt-3 flex flex-col gap-2">
           <button
-            onClick={() => openOffer(RESOURCE.link)}
-            className="w-full rounded-xl border-2 border-[#ab882e] px-4 py-2 text-sm font-semibold text-[#ab882e]"
+            onClick={() => openOffer("https://www.findthejoywithjenn.com/courses")}
+            className="rounded-xl border-2 border-[#ab882e] px-4 py-2 text-sm font-semibold text-[#ab882e]"
           >
-            Get the Free PDF
+            View All Courses
           </button>
         </div>
       </div>
