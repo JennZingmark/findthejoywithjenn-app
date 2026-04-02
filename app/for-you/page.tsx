@@ -12,9 +12,16 @@ type Offer = {
 const OFFER: Offer = {
   title: "50% Off All Courses",
   description:
-    "Exclusive app-only savings on every course. Copy your code, then head to the courses page.",
+    "Exclusive app only savings on every course. Copy your code, then head to the courses page.",
   code: "joy50%",
   link: "https://www.findthejoywithjenn.com/courses",
+};
+
+const RESOURCE = {
+  title: "Divorce Social Media Protocol",
+  description:
+    "Grab your free guide to help you navigate social media wisely during divorce.",
+  link: "https://www.findthejoywithjenn.com/social-media-protocol-pdf",
 };
 
 export default function ForYouPage() {
@@ -43,14 +50,20 @@ export default function ForYouPage() {
     <main className="mx-auto w-full max-w-md px-4 pb-24 pt-5">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-semibold text-[#ab882e]">For You</h1>
+          <h1 className="text-2xl font-semibold text-[#ab882e]">App Exclusives</h1>
           <p className="mt-1 text-sm text-zinc-600">
-            Exclusive offers available only inside the app.
+            Exclusive offers and free resources available inside the app.
           </p>
         </div>
       </div>
 
-      <div className="relative mt-4 rounded-2xl border-2 border-[#ab882e] bg-white p-4 shadow-sm">
+      <div className="mt-6">
+        <h2 className="text-sm font-semibold uppercase tracking-wide text-[#ab882e]">
+          Exclusive Offers
+        </h2>
+      </div>
+
+      <div className="relative mt-3 rounded-2xl border-2 border-[#ab882e] bg-white p-4 shadow-sm">
         <div className="absolute -top-2 right-3 rounded-md bg-[#ab882e] px-2 py-[2px] text-[10px] font-bold text-white">
           APP EXCLUSIVE
         </div>
@@ -90,6 +103,26 @@ export default function ForYouPage() {
             className="rounded-xl border-2 border-[#ab882e] px-4 py-2 text-sm font-semibold text-[#ab882e]"
           >
             View All Courses
+          </button>
+        </div>
+      </div>
+
+      <div className="mt-8">
+        <h2 className="text-sm font-semibold uppercase tracking-wide text-[#ab882e]">
+          Free Resources
+        </h2>
+      </div>
+
+      <div className="mt-3 rounded-2xl border-2 border-[#ab882e] bg-white p-4 shadow-sm">
+        <h2 className="text-base font-semibold">{RESOURCE.title}</h2>
+        <p className="mt-1 text-sm text-zinc-600">{RESOURCE.description}</p>
+
+        <div className="mt-3">
+          <button
+            onClick={() => openOffer(RESOURCE.link)}
+            className="w-full rounded-xl border-2 border-[#ab882e] px-4 py-2 text-sm font-semibold text-[#ab882e]"
+          >
+            Get the Free PDF
           </button>
         </div>
       </div>
