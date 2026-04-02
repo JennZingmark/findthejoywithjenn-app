@@ -88,26 +88,26 @@ export default function ForYouPage() {
         </h2>
       </div>
 
-      <div className="relative mt-3 rounded-2xl border-2 border-[#ab882e] bg-white p-4 shadow-sm overflow-hidden">
-        <div className="absolute -top-2 right-3 rounded-md bg-[#ab882e] px-2 py-[2px] text-[10px] font-bold text-white">
+      <div className="relative mt-3 rounded-2xl border-2 border-[#ab882e] bg-white p-4 pt-5 shadow-sm overflow-hidden">
+        <div className="absolute top-[-1px] right-3 rounded-md bg-[#ab882e] px-2 py-[2px] text-[10px] font-bold text-white">
           APP EXCLUSIVE
         </div>
 
         {/* Floating Social Icons */}
         <MessageCircle
-          className="float1 absolute right-4 top-3 text-[#ab882e]/70"
+          className="float1 absolute right-4 top-4 text-[#ab882e]/70"
           size={22}
         />
         <Heart
-          className="float2 absolute right-10 top-10 text-[#ab882e]/70"
+          className="float2 absolute right-10 top-11 text-[#ab882e]/70"
           size={18}
         />
         <Play
-          className="float3 absolute bottom-4 right-3 text-[#ab882e]/70"
+          className="float3 absolute bottom-4 right-3 text-[#e6c766]"
           size={18}
         />
         <Mail
-          className="float4 absolute bottom-3 right-14 text-[#ab882e]/70"
+          className="float4 absolute bottom-3 right-14 text-[#e6c766]"
           size={18}
         />
 
@@ -131,8 +131,8 @@ export default function ForYouPage() {
         </h2>
       </div>
 
-      <div className="relative mt-3 rounded-2xl border-2 border-[#ab882e] bg-white p-4 shadow-sm">
-        <div className="absolute -top-2 right-3 rounded-md bg-[#ab882e] px-2 py-[2px] text-[10px] font-bold text-white">
+      <div className="relative mt-3 rounded-2xl border-2 border-[#ab882e] bg-white p-4 pt-5 shadow-sm">
+        <div className="absolute top-[-1px] right-3 rounded-md bg-[#ab882e] px-2 py-[2px] text-[10px] font-bold text-white">
           APP EXCLUSIVE
         </div>
 
