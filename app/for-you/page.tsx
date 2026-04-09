@@ -62,55 +62,56 @@ export default function ForYouPage() {
         </h2>
       </div>
 
-      <div className="relative mt-3 min-h-[190px] rounded-2xl border-2 border-[#ab882e] bg-white p-4 pt-5 shadow-sm overflow-hidden">
+      <div className="relative mt-3 rounded-2xl border-2 border-[#ab882e] bg-white p-4 pt-5 shadow-sm overflow-hidden">
         <div className="absolute top-1 right-3 rounded-md bg-[#ab882e] px-2 py-[2px] text-[10px] font-bold text-white">
           APP EXCLUSIVE
         </div>
 
-        {/* TOP RIGHT ICONS IN SAFE WHITE SPACE */}
+        {/* top right icons */}
         <img
           src="/icons/instagram.png"
           alt="Instagram"
-          className="absolute right-4 top-10 w-5 opacity-95"
+          className="absolute right-4 top-9 w-6 opacity-100"
         />
 
         <img
           src="/icons/facebook.png"
           alt="Facebook"
-          className="absolute right-20 top-[84px] w-5 opacity-95"
+          className="absolute right-28 top-[78px] w-6 opacity-100"
         />
 
+        {/* community icon */}
         <img
           src="/icons/community.png"
           alt="Community"
-          className="absolute right-12 top-[116px] w-7 opacity-95"
+          className="absolute right-10 top-[100px] w-11 opacity-100"
         />
 
-        {/* LOWER RIGHT BUTTON AREA */}
-        <img
-          src="/icons/youtube.png"
-          alt="YouTube"
-          className="absolute right-12 bottom-8 w-6 opacity-100"
-        />
-
-        <img
-          src="/icons/Click.png"
-          alt="Click"
-          className="absolute right-3 bottom-3 w-7 opacity-100"
-        />
-
-        <h2 className="pr-20 text-base font-semibold">{RESOURCE.title}</h2>
-        <p className="mt-1 max-w-[260px] text-sm text-zinc-600">
+        <h2 className="pr-24 text-base font-semibold">{RESOURCE.title}</h2>
+        <p className="mt-1 max-w-[265px] text-sm text-zinc-600">
           {RESOURCE.description}
         </p>
 
-        <div className="mt-4">
+        {/* button area with icons ON TOP of button */}
+        <div className="relative mt-4">
           <button
             onClick={() => openOffer(RESOURCE.link)}
             className="w-full rounded-xl bg-[#ab882e] px-4 py-2 text-sm font-semibold text-white"
           >
             Get the Free PDF
           </button>
+
+          <img
+            src="/icons/youtube.png"
+            alt="YouTube"
+            className="absolute bottom-1.5 right-10 w-7 opacity-100"
+          />
+
+          <img
+            src="/icons/Click.png"
+            alt="Click"
+            className="absolute bottom-[-3px] right-1 w-7 opacity-100"
+          />
         </div>
       </div>
 
