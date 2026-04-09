@@ -62,47 +62,49 @@ export default function ForYouPage() {
         </h2>
       </div>
 
-      <div className="relative mt-3 rounded-2xl border-2 border-[#ab882e] bg-white p-4 pt-5 shadow-sm overflow-hidden">
-        <div className="absolute top-[-1px] right-3 rounded-md bg-[#ab882e] px-2 py-[2px] text-[10px] font-bold text-white">
+      <div className="relative mt-3 min-h-[190px] rounded-2xl border-2 border-[#ab882e] bg-white p-4 pt-5 shadow-sm overflow-hidden">
+        <div className="absolute top-1 right-3 rounded-md bg-[#ab882e] px-2 py-[2px] text-[10px] font-bold text-white">
           APP EXCLUSIVE
         </div>
 
-        {/* CUSTOM STATIC ICONS */}
-
-        {/* Instagram */}
+        {/* TOP RIGHT ICONS IN SAFE WHITE SPACE */}
         <img
           src="/icons/instagram.png"
-          className="absolute right-4 top-4 w-6 opacity-95"
+          alt="Instagram"
+          className="absolute right-4 top-10 w-5 opacity-95"
         />
 
-        {/* Facebook */}
         <img
           src="/icons/facebook.png"
-          className="absolute right-12 top-12 w-6 opacity-95"
+          alt="Facebook"
+          className="absolute right-20 top-[84px] w-5 opacity-95"
         />
 
-        {/* Community */}
         <img
           src="/icons/community.png"
-          className="absolute right-16 bottom-4 w-6 opacity-95"
+          alt="Community"
+          className="absolute right-12 top-[116px] w-7 opacity-95"
         />
 
-        {/* YouTube */}
+        {/* LOWER RIGHT BUTTON AREA */}
         <img
           src="/icons/youtube.png"
-          className="absolute right-4 bottom-6 w-7 opacity-100"
+          alt="YouTube"
+          className="absolute right-12 bottom-8 w-6 opacity-100"
         />
 
-        {/* Click indicator */}
         <img
           src="/icons/Click.png"
-          className="absolute right-2 bottom-2 w-8 opacity-100"
+          alt="Click"
+          className="absolute right-3 bottom-3 w-7 opacity-100"
         />
 
-        <h2 className="text-base font-semibold">{RESOURCE.title}</h2>
-        <p className="mt-1 text-sm text-zinc-600">{RESOURCE.description}</p>
+        <h2 className="pr-20 text-base font-semibold">{RESOURCE.title}</h2>
+        <p className="mt-1 max-w-[260px] text-sm text-zinc-600">
+          {RESOURCE.description}
+        </p>
 
-        <div className="mt-3">
+        <div className="mt-4">
           <button
             onClick={() => openOffer(RESOURCE.link)}
             className="w-full rounded-xl bg-[#ab882e] px-4 py-2 text-sm font-semibold text-white"
@@ -120,7 +122,7 @@ export default function ForYouPage() {
       </div>
 
       <div className="relative mt-3 rounded-2xl border-2 border-[#ab882e] bg-white p-4 pt-5 shadow-sm">
-        <div className="absolute top-[-1px] right-3 rounded-md bg-[#ab882e] px-2 py-[2px] text-[10px] font-bold text-white">
+        <div className="absolute top-1 right-3 rounded-md bg-[#ab882e] px-2 py-[2px] text-[10px] font-bold text-white">
           APP EXCLUSIVE
         </div>
 
