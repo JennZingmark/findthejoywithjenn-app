@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { MessageCircle, Heart, Play, Mail } from "lucide-react";
 
 type Offer = {
   title: string;
@@ -49,6 +48,7 @@ export default function ForYouPage() {
 
   return (
     <main className="mx-auto w-full max-w-md px-4 pb-24 pt-5">
+      {/* FLOAT ANIMATION */}
       <style jsx>{`
         @keyframes float1 {
           0% { transform: translateY(0px); }
@@ -60,18 +60,10 @@ export default function ForYouPage() {
           50% { transform: translateY(5px); }
           100% { transform: translateY(0px); }
         }
-        .float1 {
-          animation: float1 6s ease-in-out infinite;
-        }
-        .float2 {
-          animation: float2 7s ease-in-out infinite;
-        }
-        .float3 {
-          animation: float1 8s ease-in-out infinite;
-        }
-        .float4 {
-          animation: float2 9s ease-in-out infinite;
-        }
+        .float1 { animation: float1 6s ease-in-out infinite; }
+        .float2 { animation: float2 7s ease-in-out infinite; }
+        .float3 { animation: float1 8s ease-in-out infinite; }
+        .float4 { animation: float2 9s ease-in-out infinite; }
       `}</style>
 
       <div>
@@ -93,22 +85,30 @@ export default function ForYouPage() {
           APP EXCLUSIVE
         </div>
 
-        {/* Floating Social Icons */}
-        <MessageCircle
-          className="float1 absolute right-4 top-4 text-[#ab882e]/70"
-          size={22}
+        {/* FLOATING CUSTOM ICONS */}
+
+        {/* Instagram */}
+        <img
+          src="/icons/instagram.png"
+          className="absolute right-4 top-4 float1 w-5 opacity-90"
         />
-        <Heart
-          className="float2 absolute right-10 top-11 text-[#ab882e]/70"
-          size={18}
+
+        {/* Facebook */}
+        <img
+          src="/icons/facebook.png"
+          className="absolute right-10 top-12 float2 w-5 opacity-90"
         />
-        <Play
-          className="float3 absolute bottom-4 right-3 text-[#e6c766]"
-          size={18}
+
+        {/* Community (heart/thumb/chat icon) */}
+        <img
+          src="/icons/community.png"
+          className="absolute right-14 bottom-3 float4 w-5 opacity-90"
         />
-        <Mail
-          className="float4 absolute bottom-3 right-14 text-[#e6c766]"
-          size={18}
+
+        {/* YouTube (replaces play icon) */}
+        <img
+          src="/icons/youtube.png"
+          className="absolute right-3 bottom-4 float3 w-6 opacity-95"
         />
 
         <h2 className="text-base font-semibold">{RESOURCE.title}</h2>
