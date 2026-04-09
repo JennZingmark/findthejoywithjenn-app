@@ -67,24 +67,23 @@ export default function ForYouPage() {
           APP EXCLUSIVE
         </div>
 
-        {/* top right icons */}
+        {/* top/right icons */}
         <img
           src="/icons/instagram.png"
           alt="Instagram"
-          className="absolute right-4 top-9 w-6 opacity-100"
+          className="absolute right-4 top-8 w-7 opacity-100"
         />
 
         <img
           src="/icons/facebook.png"
           alt="Facebook"
-          className="absolute right-28 top-[78px] w-6 opacity-100"
+          className="absolute right-30 top-[76px] w-7 opacity-100"
         />
 
-        {/* community icon */}
         <img
           src="/icons/community.png"
           alt="Community"
-          className="absolute right-10 top-[100px] w-11 opacity-100"
+          className="absolute right-12 top-[78px] w-12 opacity-100"
         />
 
         <h2 className="pr-24 text-base font-semibold">{RESOURCE.title}</h2>
@@ -104,13 +103,13 @@ export default function ForYouPage() {
           <img
             src="/icons/youtube.png"
             alt="YouTube"
-            className="absolute bottom-1.5 right-10 w-7 opacity-100"
+            className="absolute bottom-1.5 right-14 w-7 opacity-100"
           />
 
           <img
             src="/icons/Click.png"
             alt="Click"
-            className="absolute bottom-[-3px] right-1 w-7 opacity-100"
+            className="absolute bottom-1 right-1 w-9 opacity-100"
           />
         </div>
       </div>
