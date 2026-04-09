@@ -48,24 +48,6 @@ export default function ForYouPage() {
 
   return (
     <main className="mx-auto w-full max-w-md px-4 pb-24 pt-5">
-      {/* FLOAT ANIMATION */}
-      <style jsx>{`
-        @keyframes float1 {
-          0% { transform: translateY(0px); }
-          50% { transform: translateY(-6px); }
-          100% { transform: translateY(0px); }
-        }
-        @keyframes float2 {
-          0% { transform: translateY(0px); }
-          50% { transform: translateY(5px); }
-          100% { transform: translateY(0px); }
-        }
-        .float1 { animation: float1 6s ease-in-out infinite; }
-        .float2 { animation: float2 7s ease-in-out infinite; }
-        .float3 { animation: float1 8s ease-in-out infinite; }
-        .float4 { animation: float2 9s ease-in-out infinite; }
-      `}</style>
-
       <div>
         <h1 className="text-2xl font-semibold text-[#ab882e]">App Exclusives</h1>
         <p className="mt-1 text-sm text-zinc-600">
@@ -85,30 +67,36 @@ export default function ForYouPage() {
           APP EXCLUSIVE
         </div>
 
-        {/* FLOATING CUSTOM ICONS */}
+        {/* CUSTOM STATIC ICONS */}
 
         {/* Instagram */}
         <img
           src="/icons/instagram.png"
-          className="absolute right-4 top-4 float1 w-5 opacity-90"
+          className="absolute right-4 top-4 w-6 opacity-95"
         />
 
         {/* Facebook */}
         <img
           src="/icons/facebook.png"
-          className="absolute right-10 top-12 float2 w-5 opacity-90"
+          className="absolute right-12 top-12 w-6 opacity-95"
         />
 
-        {/* Community (heart/thumb/chat icon) */}
+        {/* Community */}
         <img
           src="/icons/community.png"
-          className="absolute right-14 bottom-3 float4 w-5 opacity-90"
+          className="absolute right-16 bottom-4 w-6 opacity-95"
         />
 
-        {/* YouTube (replaces play icon) */}
+        {/* YouTube */}
         <img
           src="/icons/youtube.png"
-          className="absolute right-3 bottom-4 float3 w-6 opacity-95"
+          className="absolute right-4 bottom-6 w-7 opacity-100"
+        />
+
+        {/* Click indicator */}
+        <img
+          src="/icons/Click.png"
+          className="absolute right-2 bottom-2 w-8 opacity-100"
         />
 
         <h2 className="text-base font-semibold">{RESOURCE.title}</h2>
