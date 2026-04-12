@@ -2,7 +2,7 @@ import { getSupabaseClient } from "@/lib/supabaseClient";
 
 const DEFAULT_BOOK = process.env.NEXT_PUBLIC_DEFAULT_BOOK_URL!;
 
-const COURSES_URL = "https://www.findthejoywithjenn.com/courses";
+const FFD_URL = "https://www.findthejoywithjenn.com/program-details";
 const ONE_ON_ONE_OLD_URL =
   "https://www.findthejoywithjenn.com/certified/one-on-one-coaching";
 const ONE_ON_ONE_NEW_URL =
@@ -28,57 +28,148 @@ async function getOffers() {
   return data ?? [];
 }
 
-function isCoursesOffer(o: any) {
-  return (o.learn_more_url ?? "").trim() === COURSES_URL;
-}
-
 function isOneOnOneOffer(o: any) {
   const url = (o.learn_more_url ?? "").trim();
   return url === ONE_ON_ONE_OLD_URL || url === ONE_ON_ONE_NEW_URL;
 }
 
-function secondButtonText(o: any) {
-  if (isOneOnOneOffer(o)) return "Book a Session";
-  return "Book Now";
+function findOneOnOneOffer(offers: any[]) {
+  return offers.find((o: any) => isOneOnOneOffer(o)) ?? null;
 }
 
-function secondButtonHref(o: any) {
-  if (isOneOnOneOffer(o)) return ONE_ON_ONE_BOOK;
-  return o.book_url || DEFAULT_BOOK;
+function findFaithFilledDivorceOffer(offers: any[]) {
+  return (
+    offers.find((o: any) => {
+      const url = (o.learn_more_url ?? "").trim().toLowerCase();
+      const title = (o.title ?? "").toLowerCase();
+      return (
+        url === FFD_URL.toLowerCase() ||
+        title.includes("faith filled divorce") ||
+        title.includes("faith-filled divorce")
+      );
+    }) ?? null
+  );
 }
 
-function learnMoreHref(o: any) {
-  if (isOneOnOneOffer(o)) return ONE_ON_ONE_NEW_URL;
-  return o.learn_more_url;
+function findStrategySessionOffer(offers: any[]) {
+  return (
+    offers.find((o: any) => {
+      const url = (o.learn_more_url ?? "").trim().toLowerCase();
+      const title = (o.title ?? "").toLowerCase();
+      return (
+        url === STRATEGY_SESSION_URL.toLowerCase() ||
+        title.includes("reclaim your joy") ||
+        title.includes("strategy session")
+      );
+    }) ?? null
+  );
 }
 
 export default async function OffersPage() {
   const offers = await getOffers();
-  const featured = offers.find((o: any) => o.is_featured) ?? null;
-  const list = offers.filter((o: any) => !o.is_featured);
+
+  const ffdOffer = findFaithFilledDivorceOffer(offers);
+  const oneOnOneOffer = findOneOnOneOffer(offers);
+  const strategyOffer = findStrategySessionOffer(offers);
 
   return (
     <div className="mx-auto max-w-md p-6">
       <h1 className="text-2xl font-semibold">Work With Jenn</h1>
       <p className="mt-1 text-sm text-gray-600">
-        Explore your next best step. Strategy Session is always available.
+        Explore your next best step. Faith Filled Divorce is featured right now.
       </p>
 
-      {featured && (
-        <div className="mt-6 rounded-2xl border-2 border-[#ab882e] bg-white p-6 shadow-md">
+      {/* Faith Filled Divorce */}
+      <div className="mt-6 rounded-2xl border-2 border-[#ab882e] bg-white p-6 shadow-md">
+        <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+          Featured Right Now
+        </p>
+
+        <h2 className="mt-2 text-lg font-semibold">
+          {ffdOffer?.title || "Faith Filled Divorce"}
+        </h2>
+
+        <p className="mt-2 text-gray-700">
+          {ffdOffer?.outcome ||
+            "Ongoing support, weekly coaching, and a step by step path to help you heal, grow, and move forward."}
+        </p>
+
+        <div className="mt-4 flex gap-3">
+          <a
+            className="rounded-xl border-2 border-[#ab882e] px-4 py-2 text-sm font-medium text-[#ab882e] transition-colors hover:bg-[#ab882e] hover:text-white"
+            href={FFD_URL}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Learn More
+          </a>
+
+          <a
+            className="rounded-xl border-2 border-[#ab882e] px-4 py-2 text-sm font-medium text-[#ab882e] transition-colors hover:bg-[#ab882e] hover:text-white"
+            href={DEFAULT_BOOK}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Book Now
+          </a>
+        </div>
+      </div>
+
+      <div className="mt-6 space-y-4">
+        {/* 1:1 Coaching */}
+        <div className="rounded-2xl border-2 border-[#ab882e] bg-white p-5 shadow-sm">
           <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
-            Featured Right Now
+            {oneOnOneOffer?.category || "Coaching"}
           </p>
 
-          <h2 className="mt-2 text-lg font-semibold">{featured.title}</h2>
+          <p className="mt-1 font-semibold">
+            {oneOnOneOffer?.title || "1:1 Coaching"}
+          </p>
 
-          {featured.outcome && (
-            <p className="mt-2 text-gray-700">{featured.outcome}</p>
-          )}
+          <p className="mt-2 text-sm text-gray-700">
+            {oneOnOneOffer?.outcome ||
+              "Personal support and a clear path forward, tailored to your season."}
+          </p>
 
-          <div className="mt-4 flex gap-3">
+          <div className="mt-3 flex gap-3">
             <a
-              className="rounded-xl border-2 border-[#ab882e] px-4 py-2 text-sm font-medium text-[#ab882e] transition-colors hover:bg-[#ab882e] hover:text-white"
+              className="rounded-xl border-2 border-[#ab882e] px-3 py-2 text-sm font-medium text-[#ab882e] transition-colors hover:bg-[#ab882e] hover:text-white"
+              href={ONE_ON_ONE_NEW_URL}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Learn More
+            </a>
+
+            <a
+              className="rounded-xl border-2 border-[#ab882e] px-3 py-2 text-sm font-medium text-[#ab882e] transition-colors hover:bg-[#ab882e] hover:text-white"
+              href={ONE_ON_ONE_BOOK}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Book a Session
+            </a>
+          </div>
+        </div>
+
+        {/* Reclaim Your Joy Strategy Session */}
+        <div className="rounded-2xl border-2 border-[#ab882e] bg-white p-5 shadow-sm">
+          <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+            {strategyOffer?.category || "Strategy Session"}
+          </p>
+
+          <p className="mt-1 font-semibold">
+            {strategyOffer?.title || "Reclaim Your Joy Strategy Session"}
+          </p>
+
+          <p className="mt-2 text-sm text-gray-700">
+            {strategyOffer?.outcome ||
+              "A free session to help you get clarity and a next step plan."}
+          </p>
+
+          <div className="mt-3 flex gap-3">
+            <a
+              className="rounded-xl border-2 border-[#ab882e] px-3 py-2 text-sm font-medium text-[#ab882e] transition-colors hover:bg-[#ab882e] hover:text-white"
               href={STRATEGY_SESSION_URL}
               target="_blank"
               rel="noreferrer"
@@ -87,7 +178,7 @@ export default async function OffersPage() {
             </a>
 
             <a
-              className="rounded-xl border-2 border-[#ab882e] px-4 py-2 text-sm font-medium text-[#ab882e] transition-colors hover:bg-[#ab882e] hover:text-white"
+              className="rounded-xl border-2 border-[#ab882e] px-3 py-2 text-sm font-medium text-[#ab882e] transition-colors hover:bg-[#ab882e] hover:text-white"
               href={DEFAULT_BOOK}
               target="_blank"
               rel="noreferrer"
@@ -96,47 +187,6 @@ export default async function OffersPage() {
             </a>
           </div>
         </div>
-      )}
-
-      <div className="mt-6 space-y-4">
-        {list.map((o: any, idx: number) => (
-          <div
-            key={idx}
-            className="rounded-2xl border-2 border-[#ab882e] bg-white p-5 shadow-sm"
-          >
-            <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
-              {o.category}
-            </p>
-
-            <p className="mt-1 font-semibold">{o.title}</p>
-
-            {o.outcome && (
-              <p className="mt-2 text-sm text-gray-700">{o.outcome}</p>
-            )}
-
-            <div className="mt-3 flex gap-3">
-              <a
-                className="rounded-xl border-2 border-[#ab882e] px-3 py-2 text-sm font-medium text-[#ab882e] transition-colors hover:bg-[#ab882e] hover:text-white"
-                href={learnMoreHref(o)}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Learn More
-              </a>
-
-              {!isCoursesOffer(o) && (
-                <a
-                  className="rounded-xl border-2 border-[#ab882e] px-3 py-2 text-sm font-medium text-[#ab882e] transition-colors hover:bg-[#ab882e] hover:text-white"
-                  href={secondButtonHref(o)}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {secondButtonText(o)}
-                </a>
-              )}
-            </div>
-          </div>
-        ))}
       </div>
     </div>
   );
