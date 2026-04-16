@@ -43,7 +43,7 @@ export default function OffersPage() {
 
         <div className="mt-4 flex gap-3">
           <a
-            className="rounded-xl border-2 border-[#ab882e] px-4 py-2 text-sm font-medium text-[#ab882e] hover:bg-[#ab882e] hover:text-white transition-colors"
+            className="rounded-xl border-2 border-[#ab882e] px-4 py-2 text-sm font-medium text-[#ab882e] transition-colors hover:bg-[#ab882e] hover:text-white"
             href="https://www.findthejoywithjenn.com/program-details"
             target="_blank"
             rel="noreferrer"
@@ -52,7 +52,7 @@ export default function OffersPage() {
           </a>
 
           <a
-            className="rounded-xl border-2 border-[#ab882e] px-4 py-2 text-sm font-medium text-[#ab882e] hover:bg-[#ab882e] hover:text-white transition-colors"
+            className="rounded-xl border-2 border-[#ab882e] px-4 py-2 text-sm font-medium text-[#ab882e] transition-colors hover:bg-[#ab882e] hover:text-white"
             href="https://www.findthejoywithjenn.com/membership-pricing"
             target="_blank"
             rel="noreferrer"
@@ -77,7 +77,7 @@ export default function OffersPage() {
 
           <div className="mt-3 flex gap-3">
             <a
-              className="rounded-xl border-2 border-[#ab882e] px-3 py-2 text-sm font-medium text-[#ab882e] hover:bg-[#ab882e] hover:text-white transition-colors"
+              className="rounded-xl border-2 border-[#ab882e] px-3 py-2 text-sm font-medium text-[#ab882e] transition-colors hover:bg-[#ab882e] hover:text-white"
               href="https://www.findthejoywithjenn.com/one-on-one-coaching"
               target="_blank"
               rel="noreferrer"
@@ -86,7 +86,7 @@ export default function OffersPage() {
             </a>
 
             <a
-              className="rounded-xl border-2 border-[#ab882e] px-3 py-2 text-sm font-medium text-[#ab882e] hover:bg-[#ab882e] hover:text-white transition-colors"
+              className="rounded-xl border-2 border-[#ab882e] px-3 py-2 text-sm font-medium text-[#ab882e] transition-colors hover:bg-[#ab882e] hover:text-white"
               href="https://calendly.com/jennzingmark/50min"
               target="_blank"
               rel="noreferrer"
@@ -98,11 +98,9 @@ export default function OffersPage() {
 
         {/* Courses */}
         <div className="relative rounded-2xl border-2 border-[#ab882e] bg-white p-5 shadow-sm">
-
-          {/* 🔥 Promo Badge */}
           <button
             onClick={copyCode}
-            className="absolute -top-2 right-3 rounded-md bg-[#ab882e] px-2 py-[2px] text-[10px] font-bold text-white cursor-pointer hover:opacity-90"
+            className="absolute top-1 right-3 rounded-md bg-[#ab882e] px-2 py-[2px] text-[10px] font-bold text-white hover:opacity-90"
           >
             {copied ? "Copied!" : "Promo Code Joy50%"}
           </button>
@@ -119,7 +117,7 @@ export default function OffersPage() {
 
           <div className="mt-3 flex gap-3">
             <a
-              className="rounded-xl border-2 border-[#ab882e] px-3 py-2 text-sm font-medium text-[#ab882e] hover:bg-[#ab882e] hover:text-white transition-colors"
+              className="rounded-xl border-2 border-[#ab882e] px-3 py-2 text-sm font-medium text-[#ab882e] transition-colors hover:bg-[#ab882e] hover:text-white"
               href="https://www.findthejoywithjenn.com/courses"
               target="_blank"
               rel="noreferrer"
@@ -128,7 +126,7 @@ export default function OffersPage() {
             </a>
 
             <a
-              className="rounded-xl border-2 border-[#ab882e] px-3 py-2 text-sm font-medium text-[#ab882e] hover:bg-[#ab882e] hover:text-white transition-colors"
+              className="rounded-xl border-2 border-[#ab882e] px-3 py-2 text-sm font-medium text-[#ab882e] transition-colors hover:bg-[#ab882e] hover:text-white"
               href="https://www.findthejoywithjenn.com/courses"
               target="_blank"
               rel="noreferrer"
