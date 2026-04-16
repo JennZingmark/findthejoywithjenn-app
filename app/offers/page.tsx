@@ -1,97 +1,62 @@
-import { getSupabaseClient } from "@/lib/supabaseClient";
-
-const DEFAULT_BOOK = process.env.NEXT_PUBLIC_DEFAULT_BOOK_URL!;
-
-const COURSES_URL = "https://www.findthejoywithjenn.com/courses";
-const ONE_ON_ONE_OLD_URL =
-  "https://www.findthejoywithjenn.com/certified/one-on-one-coaching";
-const ONE_ON_ONE_NEW_URL =
-  "https://www.findthejoywithjenn.com/one-on-one-coaching";
-const ONE_ON_ONE_BOOK = "https://calendly.com/jennzingmark/50min";
-
-const FFD_URL =
-  "https://www.findthejoywithjenn.com/membership-pricing";
-
-const STRATEGY_SESSION_URL =
-  "https://www.findthejoywithjenn.com/reclaim-your-joy-strategy-session";
-
-async function getOffers() {
-  const supabase = getSupabaseClient();
-  if (!supabase) return [];
-
-  const { data } = await supabase
-    .from("offers")
-    .select(
-      "title, category, outcome, learn_more_url, book_url, is_featured, feature_priority, created_at"
-    )
-    .eq("is_active", true)
-    .order("is_featured", { ascending: false })
-    .order("feature_priority", { ascending: false })
-    .order("created_at", { ascending: false });
-
-  return data ?? [];
-}
-
-function isCoursesOffer(o: any) {
-  return (o.learn_more_url ?? "").trim() === COURSES_URL;
-}
-
-function isOneOnOneOffer(o: any) {
-  const url = (o.learn_more_url ?? "").trim();
-  return url === ONE_ON_ONE_OLD_URL || url === ONE_ON_ONE_NEW_URL;
-}
-
-// 🔥 NEW: detect FFD
-function isFFDOffer(o: any) {
-  return (o.title ?? "").toLowerCase().includes("faith filled divorce");
-}
-
-function secondButtonText(o: any) {
-  if (isFFDOffer(o)) return "Join Now"; // 🔥 FIXED
-  if (isOneOnOneOffer(o)) return "Book a Session";
-  return "Book Now";
-}
-
-function secondButtonHref(o: any) {
-  if (isFFDOffer(o)) return FFD_URL; // 🔥 FIXED
-  if (isOneOnOneOffer(o)) return ONE_ON_ONE_BOOK;
-  return o.book_url || DEFAULT_BOOK;
-}
-
-function learnMoreHref(o: any) {
-  if (isFFDOffer(o)) return FFD_URL; // 🔥 optional but smart
-  if (isOneOnOneOffer(o)) return ONE_ON_ONE_NEW_URL;
-  return o.learn_more_url;
-}
-
-export default async function OffersPage() {
-  const offers = await getOffers();
-  const featured = offers.find((o: any) => o.is_featured) ?? null;
-  const list = offers.filter((o: any) => !o.is_featured);
-
+export default function OffersPage() {
   return (
     <div className="mx-auto max-w-md p-6">
       <h1 className="text-2xl font-semibold">Work With Jenn</h1>
       <p className="mt-1 text-sm text-gray-600">
-        Explore your next best step. Strategy Session is always available.
+        Explore your next best step. Faith Filled Divorce is featured right now.
       </p>
 
-      {featured && (
-        <div className="mt-6 rounded-2xl border-2 border-[#ab882e] bg-white p-6 shadow-md">
+      {/* Faith Filled Divorce */}
+      <div className="mt-6 rounded-2xl border-2 border-[#ab882e] bg-white p-6 shadow-md">
+        <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+          Featured Right Now
+        </p>
+
+        <h2 className="mt-2 text-lg font-semibold">Faith Filled Divorce</h2>
+
+        <p className="mt-2 text-gray-700">
+          Ongoing support, weekly coaching, and a step by step path to help you
+          heal, grow, and move forward.
+        </p>
+
+        <div className="mt-4 flex gap-3">
+          <a
+            className="rounded-xl border-2 border-[#ab882e] px-4 py-2 text-sm font-medium text-[#ab882e] transition-colors hover:bg-[#ab882e] hover:text-white"
+            href="https://www.findthejoywithjenn.com/program-details"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Learn More
+          </a>
+
+          <a
+            className="rounded-xl border-2 border-[#ab882e] px-4 py-2 text-sm font-medium text-[#ab882e] transition-colors hover:bg-[#ab882e] hover:text-white"
+            href="https://www.findthejoywithjenn.com/membership-pricing"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Join Now
+          </a>
+        </div>
+      </div>
+
+      <div className="mt-6 space-y-4">
+        {/* 1:1 Coaching */}
+        <div className="rounded-2xl border-2 border-[#ab882e] bg-white p-5 shadow-sm">
           <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
-            Featured Right Now
+            Coaching
           </p>
 
-          <h2 className="mt-2 text-lg font-semibold">{featured.title}</h2>
+          <p className="mt-1 font-semibold">1:1 Coaching</p>
 
-          {featured.outcome && (
-            <p className="mt-2 text-gray-700">{featured.outcome}</p>
-          )}
+          <p className="mt-2 text-sm text-gray-700">
+            Personal support and a clear path forward, tailored to your season.
+          </p>
 
-          <div className="mt-4 flex gap-3">
+          <div className="mt-3 flex gap-3">
             <a
-              className="rounded-xl border-2 border-[#ab882e] px-4 py-2 text-sm font-medium text-[#ab882e] transition-colors hover:bg-[#ab882e] hover:text-white"
-              href={learnMoreHref(featured)}
+              className="rounded-xl border-2 border-[#ab882e] px-3 py-2 text-sm font-medium text-[#ab882e] transition-colors hover:bg-[#ab882e] hover:text-white"
+              href="https://www.findthejoywithjenn.com/one-on-one-coaching"
               target="_blank"
               rel="noreferrer"
             >
@@ -99,56 +64,48 @@ export default async function OffersPage() {
             </a>
 
             <a
-              className="rounded-xl border-2 border-[#ab882e] px-4 py-2 text-sm font-medium text-[#ab882e] transition-colors hover:bg-[#ab882e] hover:text-white"
-              href={secondButtonHref(featured)}
+              className="rounded-xl border-2 border-[#ab882e] px-3 py-2 text-sm font-medium text-[#ab882e] transition-colors hover:bg-[#ab882e] hover:text-white"
+              href="https://calendly.com/jennzingmark/50min"
               target="_blank"
               rel="noreferrer"
             >
-              {secondButtonText(featured)}
+              Book a Session
             </a>
           </div>
         </div>
-      )}
 
-      <div className="mt-6 space-y-4">
-        {list.map((o: any, idx: number) => (
-          <div
-            key={idx}
-            className="rounded-2xl border-2 border-[#ab882e] bg-white p-5 shadow-sm"
-          >
-            <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
-              {o.category}
-            </p>
+        {/* Courses */}
+        <div className="rounded-2xl border-2 border-[#ab882e] bg-white p-5 shadow-sm">
+          <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+            Course
+          </p>
 
-            <p className="mt-1 font-semibold">{o.title}</p>
+          <p className="mt-1 font-semibold">Courses</p>
 
-            {o.outcome && (
-              <p className="mt-2 text-sm text-gray-700">{o.outcome}</p>
-            )}
+          <p className="mt-2 text-sm text-gray-700">
+            Self paced support to help you heal, grow, and move forward.
+          </p>
 
-            <div className="mt-3 flex gap-3">
-              <a
-                className="rounded-xl border-2 border-[#ab882e] px-3 py-2 text-sm font-medium text-[#ab882e] transition-colors hover:bg-[#ab882e] hover:text-white"
-                href={learnMoreHref(o)}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Learn More
-              </a>
+          <div className="mt-3 flex gap-3">
+            <a
+              className="rounded-xl border-2 border-[#ab882e] px-3 py-2 text-sm font-medium text-[#ab882e] transition-colors hover:bg-[#ab882e] hover:text-white"
+              href="https://www.findthejoywithjenn.com/courses"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Learn More
+            </a>
 
-              {!isCoursesOffer(o) && (
-                <a
-                  className="rounded-xl border-2 border-[#ab882e] px-3 py-2 text-sm font-medium text-[#ab882e] transition-colors hover:bg-[#ab882e] hover:text-white"
-                  href={secondButtonHref(o)}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {secondButtonText(o)}
-                </a>
-              )}
-            </div>
+            <a
+              className="rounded-xl border-2 border-[#ab882e] px-3 py-2 text-sm font-medium text-[#ab882e] transition-colors hover:bg-[#ab882e] hover:text-white"
+              href="https://www.findthejoywithjenn.com/courses"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Use 50% Off
+            </a>
           </div>
-        ))}
+        </div>
       </div>
     </div>
   );
