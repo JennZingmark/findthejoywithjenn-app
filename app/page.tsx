@@ -5,13 +5,6 @@ import HeartHint from "@/app/components/HeartHint";
 import { getSupabaseClient } from "@/lib/supabaseClient";
 import { dayOfYearNY, getNYDateString } from "@/lib/date";
 
-function weekOfYear() {
-  const now = new Date();
-  const start = new Date(now.getFullYear(), 0, 1);
-  const diff = now.getTime() - start.getTime();
-  return Math.floor(diff / (7 * 24 * 60 * 60 * 1000));
-}
-
 async function getMessage() {
   const supabase = getSupabaseClient();
   if (!supabase) return null;
@@ -43,23 +36,9 @@ async function getMessage() {
 export default async function Home() {
   const message = await getMessage();
 
-  const heroImages = [
-    "hero1.png",
-    "hero2.png",
-    "hero3.png",
-    "hero4.png",
-    "hero5.png",
-    "hero6.png",
-    "hero7.png",
-    "hero8.png",
-    "hero9.png",
-    "hero10.png",
-    "hero11.png",
-    "hero12.png",
-  ];
-
-  const heroIndex = weekOfYear() % heroImages.length;
-  const heroSrc = `/${heroImages[heroIndex]}`;
+  // CHANGE THIS to the exact filename that is in your /public folder
+  // Example: /hero1.png or /jenn-hero.png
+  const heroSrc = "/hero1.png";
 
   return (
     <div className="flex justify-center bg-zinc-50 px-6 pt-6 pb-24">
